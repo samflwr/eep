@@ -311,3 +311,28 @@
     orb.style.transition = 'none';
   }
 })();
+
+
+// Header elevation on scroll
+const header = document.querySelector('.site-header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('is-elevated', window.scrollY > 10);
+});
+
+// Mobile nav toggle
+const navToggle = document.getElementById('navToggle');
+const primaryTabs = document.getElementById('primaryTabs');
+navToggle.addEventListener('click', () => {
+  const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+  navToggle.setAttribute('aria-expanded', !expanded);
+  primaryTabs.classList.toggle('is-open');
+});
+
+// Progress bar on scroll
+const progress = document.getElementById('routeProgress');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.body.scrollHeight - window.innerHeight;
+  const progressWidth = (scrollTop / docHeight) * 100;
+  progress.style.transform = `scaleX(${progressWidth / 100})`;
+});

@@ -18,6 +18,9 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://eepy.app/">
   <meta property="og:image" content="https://eepy.app/images/og.jpg">
+  <meta property="og:image:secure_url" content="https://eepy.app/images/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="eepy — be softly social">
   <meta name="twitter:description" content="condividi momenti veri con le persone che ami. niente rumore, solo calma, cura e connessioni che contano.">
@@ -27,63 +30,107 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="eepy">
+  <meta name="format-detection" content="telephone=no">
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="icon" type="image/png" href="/icons/icon-192.png" />
   <link rel="mask-icon" href="/icons/maskable-icon-512.png" color="#0a84ff">
 
-  <!-- Preload/Preconnect hooks (optional) -->
-  <!-- <link rel="preconnect" href="https://your-cdn.example" crossorigin> -->
-  <!-- <link rel="preload" as="image" href="/images/app-preview-1.jpg" imagesizes="(max-width: 900px) 100vw, 900px" /> -->
+  <!-- Performance hints -->
+  <!-- Align preload to an actual local asset if available; otherwise remove to avoid wasted bytes -->
+  <!-- If you host the preview locally as /images/app-preview-1.jpg, keep the preload below -->
+  <!-- <link rel="preload" as="image" href="/images/app-preview-1.jpg" imagesizes="(max-width: 980px) 100vw, 50vw" /> -->
+  <link rel="preconnect" href="https://i.pinimg.com" crossorigin>
+  <link rel="dns-prefetch" href="//i.pinimg.com">
 
   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
+
+
+  <!-- JSON-LD: Organization + WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "eepy",
+    "url": "https://eepy.app/",
+    "logo": "https://eepy.app/icons/icon-192.png",
+    "sameAs": []
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "eepy",
+    "url": "https://eepy.app/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://eepy.app/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">salta al contenuto</a>
   <div class="backdrop" aria-hidden="true"></div>
 
   <header role="banner" class="site-header" data-elevate>
-    <nav class="nav" aria-label="Primary">
-      <a class="brand" href="/" aria-label="eepy home">
-        <span class="logo" aria-hidden="true"></span>
-        <span class="brand-name">eepy</span>
-      </a>
+  <nav class="nav" aria-label="Primary">
+    <!-- Brand -->
+    <a class="brand" href="/" aria-label="eepy home">
+      <span class="logo" aria-hidden="true"></span>
+      <span class="brand-name">eepy</span>
+    </a>
 
-      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryTabs">
-        <span class="sr-only">apri il menu</span>
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-      </button>
+    <!-- Nav toggle (mobile) -->
+    <button
+      class="nav-toggle"
+      id="navToggle"
+      aria-expanded="false"
+      aria-controls="primaryTabs"
+      type="button"
+    >
+      <span class="sr-only">Apri il menu</span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
 
-      <div class="tabs" id="primaryTabs" role="navigation" aria-label="Sections">
-        <a href="#features" class="tab" data-spy>funzioni</a>
-        <a href="#how" class="tab" data-spy>come funziona</a>
-        <a href="#privacy" class="tab" data-spy>privacy</a>
-        <a href="#faq" class="tab" data-spy>faq</a>
-      </div>
+    <!-- Primary navigation -->
+    <div class="tabs" id="primaryTabs" role="navigation" aria-label="Sections">
+      <a href="#features" class="tab" data-spy>funzioni</a>
+      <a href="#how" class="tab" data-spy>come funziona</a>
+      <a href="#privacy" class="tab" data-spy>privacy</a>
+      <a href="#faq" class="tab" data-spy>faq</a>
+    </div>
 
-      <div class="nav-actions">
-        <button class="btn ghost" id="btnSignIn" type="button">accedi</button>
-        <button class="btn primary" id="btnGetApp" type="button">scarica l’app</button>
-      </div>
+    <!-- Actions -->
+    <div class="nav-actions">
+      <button class="btn ghost" id="btnSignIn" type="button">accedi</button>
+      <button class="btn primary" id="btnGetApp" type="button">scarica l’app</button>
+    </div>
 
-      <!-- Optional route/loading bar -->
-      <div class="progress" id="routeProgress" aria-hidden="true"></div>
-    </nav>
-  </header>
+    <!-- Progress bar -->
+    <div class="progress" id="routeProgress" aria-hidden="true"></div>
+  </nav>
+</header>
 
-  <main id="main" role="main">
+
+  <main id="main" role="main" tabindex="-1">
     <section class="section hero" aria-label="Intro">
       <div class="orb" aria-hidden="true"></div>
       <span class="badge" aria-label="private by default">private by default</span>
       <h1 class="headline">r u eepy?</h1>
       <p class="subhead">un social morbido. condividi momenti veri con le persone che ami. niente rumore, solo calma, cura e connessioni che contano.</p>
-      <div class="cta">
+      <div class="cta" role="group" aria-label="Azioni principali">
         <button class="btn primary" id="btnJoin" type="button">inizia ora</button>
         <button class="btn" id="btnLearn" type="button" aria-describedby="micro">scopri</button>
       </div>
       <p id="micro" class="subhead microcopy">nessun algoritmo aggressivo. privacy prima di tutto.</p>
 
-      <div class="hero-foot">
+      <div class="hero-foot" role="group" aria-label="Scelte piattaforma">
         <button class="pill" id="pillAppStore" type="button" aria-label="Scarica l’app">
           <span class="pill-dot" aria-hidden="true"></span>
           scarica per iOS
@@ -112,6 +159,15 @@
           <p>condividi con le persone che scegli. nessuna pressione, solo spazio sicuro.</p>
           <div class="chip">close friends · inviti</div>
         </article>
+        <article class="card span-6 reveal" tabindex="0">
+          <h3>frammenti audio</h3>
+          <p>condividi momenti con audio‑storie leggere. intime, naturali, senza sovra‑produzione.</p>
+          <div class="chip">voice notes · stories</div>
+        </article>
+        <article class="card span-6 reveal" tabindex="0">
+          <h3>modalità scura nativa</h3>
+          <p>interfaccia morbida che rispetta i tuoi occhi e le tue preferenze di sistema.</p>
+          <div class="chip">dark mode · accessibility</div>
       </div>
     </section>
 
@@ -142,7 +198,17 @@
 
     <section class="section preview" aria-label="Anteprima app">
       <div class="preview-media reveal" aria-label="screenshot dell’app">
-        <img class="blur-up" src="/images/app-preview-1.jpg" alt="schermata feed eepy" loading="lazy" decoding="async" />
+        <img
+          class="blur-up"
+          src="https://i.pinimg.com/1200x/3e/6c/c7/3e6cc73bc5e094ebf51b1b4fcc54a265.jpg"
+          alt="Schermata del feed di eepy"
+          loading="lazy"
+          decoding="async"
+          width="900"
+          height="600"
+          sizes="(max-width: 980px) 100vw, 50vw"
+          fetchpriority="high"
+        />
       </div>
       <div class="preview-copy">
         <h2 class="headline preview-title">pensato per i tuoi ritmi</h2>
@@ -152,10 +218,37 @@
           <li><span class="dot" aria-hidden="true"></span> modalità scura nativa e rispetto per accessibilità</li>
           <li><span class="dot" aria-hidden="true"></span> condivisione selettiva e cerchie intime</li>
         </ul>
-        <div class="cta left">
+        <div class="cta left" role="group" aria-label="Azioni anteprima">
           <button class="btn primary" id="btnGetApp2" type="button">scarica l’app</button>
           <button class="btn" id="btnOpenWeb" type="button">apri sul web</button>
         </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Social proof">
+      <div class="section-head">
+        <h2 class="eyebrow">cosa dicono</h2>
+        <p class="section-sub">persone vere, connessioni morbide.</p>
+      </div>
+      <div class="proof">
+        <blockquote class="quote reveal">
+          “mi sento tranquilla qui. niente rumore, solo amici.” — giulia
+          <div class="row mt-2">
+            <span class="avatars" aria-hidden="true">
+              <span class="avatar" aria-hidden="true"></span><span class="avatar" aria-hidden="true"></span><span class="avatar" aria-hidden="true"></span>
+            </span>
+            <span class="badge success">calma · cura</span>
+          </div>
+        </blockquote>
+        <blockquote class="quote reveal">
+          “le audio‑storie sono intime e leggere. adoro.” — marco
+          <div class="row mt-2">
+            <span class="avatars" aria-hidden="true">
+              <span class="avatar" aria-hidden="true"></span><span class="avatar" aria-hidden="true"></span><span class="avatar" aria-hidden="true"></span>
+            </span>
+            <span class="badge">frammenti audio</span>
+          </div>
+        </blockquote>
       </div>
     </section>
 
@@ -166,6 +259,7 @@
         <div class="cta mt-2">
           <a class="btn" href="/privacy">leggi l’informativa</a>
           <a class="btn ghost" href="/terms">termini</a>
+          <button class="btn ghost" type="button" id="btnDataModal">esporta dati (demo)</button>
         </div>
       </div>
     </section>
@@ -191,7 +285,7 @@
     </section>
 
     <!-- Social preview (modular demo) -->
-    <!--<section class="section" aria-label="Anteprima social">
+    <section class="section" aria-label="Anteprima social">
       <div class="feed">
         <div class="composer reveal" role="form" aria-label="Crea post">
           <div class="composer-row">
@@ -199,12 +293,12 @@
             <textarea placeholder="Cosa stai pensando?" aria-label="Testo del post"></textarea>
           </div>
           <div class="composer-actions">
-            <div class="composer-tools">
-              <button class="icon-btn tooltip" data-tip="Aggiungi foto" aria-label="Aggiungi foto">📷</button>
-              <button class="icon-btn tooltip" data-tip="Aggiungi audio" aria-label="Aggiungi audio">🎙️</button>
-              <button class="icon-btn tooltip" data-tip="Aggiungi luogo" aria-label="Aggiungi luogo">📍</button>
+            <div class="composer-tools" role="group" aria-label="Strumenti">
+              <button class="icon-btn tooltip" data-tip="Aggiungi foto" aria-label="Aggiungi foto" type="button">📷</button>
+              <button class="icon-btn tooltip" data-tip="Aggiungi audio" aria-label="Aggiungi audio" type="button">🎙️</button>
+              <button class="icon-btn tooltip" data-tip="Aggiungi luogo" aria-label="Aggiungi luogo" type="button">📍</button>
             </div>
-            <button class="btn primary">pubblica</button>
+            <button class="btn primary" type="button">pubblica</button>
           </div>
         </div>
 
@@ -216,18 +310,26 @@
               <span class="post-handle">@so</span>
               <span class="post-time" aria-label="2 ore fa">· 2h</span>
             </div>
-            <button class="icon-btn tooltip" data-tip="Altro" aria-label="Altro">•••</button>
+            <button class="icon-btn tooltip" data-tip="Altro" aria-label="Altro" type="button" aria-haspopup="menu">•••</button>
           </header>
           <div class="post-content">
             oggi sole morbido, caffè lento, playlist piano. tutto bene.
           </div>
           <div class="post-media">
-            <img src="/images/app-preview-1.jpg" alt="foto del momento" loading="lazy" decoding="async" />
+            <img
+              src="https://i.pinimg.com/1200x/3e/6c/c7/3e6cc73bc5e094ebf51b1b4fcc54a265.jpg"
+              alt="foto del momento"
+              loading="lazy"
+              decoding="async"
+              width="900"
+              height="600"
+              sizes="(max-width: 720px) 100vw, 720px"
+            />
           </div>
           <footer class="reactions" aria-label="Reazioni">
-            <button class="react-btn" aria-pressed="false">💗 <span class="react-count">24</span></button>
-            <button class="react-btn" aria-pressed="false">💬 <span class="react-count">6</span></button>
-            <button class="react-btn" aria-pressed="false">↗︎ <span class="react-count">3</span></button>
+            <button class="react-btn" aria-pressed="false" type="button">💗 <span class="react-count">24</span></button>
+            <button class="react-btn" aria-pressed="false" type="button">💬 <span class="react-count">6</span></button>
+            <button class="react-btn" aria-pressed="false" type="button">↗︎ <span class="react-count">3</span></button>
             <div class="avatars" aria-label="Piaciuto da">
               <span class="avatar" aria-hidden="true"></span>
               <span class="avatar" aria-hidden="true"></span>
@@ -243,7 +345,33 @@
           </div>
         </article>
       </div>
-    </section>-->
+    </section>
+
+    <!-- Newsletter / Updates -->
+    <section class="section" aria-label="Novità e aggiornamenti">
+      <div class="card reveal padded">
+        <h3>rimani aggiornato</h3>
+        <p class="mt-1">iscriviti per ricevere novità, changelog e inviti alle beta.</p>
+        <form class="row mt-2" action="https://eepy.app/subscribe" method="post" novalidate>
+          <label class="sr-only" for="email">email</label>
+          <input type="email" id="email" name="email" placeholder="la tua email" required inputmode="email" autocomplete="email" />
+          <input type="text" name="company" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;">
+          <button class="btn primary" type="submit">iscriviti</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section center" aria-label="Scarica o apri">
+      <div class="stack reveal">
+        <h2 class="headline">pronto quando lo sei tu</h2>
+        <p class="subhead">apri l’app, respira, condividi con chi conta.</p>
+        <div class="cta" role="group" aria-label="Azioni finali">
+          <button class="btn primary" id="btnGetApp3" type="button">scarica per iOS</button>
+          <button class="btn ghost" id="btnOpenWeb2" type="button">apri sul web</button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer role="contentinfo">
@@ -255,13 +383,126 @@
         <a href="/terms">termini</a>
         <span aria-hidden="true">·</span>
         <a href="mailto:hello@eepy.app">contatti</a>
+        <span aria-hidden="true">·</span>
+        <a href="/press">press kit</a>
       </span>
     </div>
   </footer>
 
-  <!-- Toast (hidden by default) -->
+  <!-- Back to top -->
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Torna su" hidden>↑</button>
+
+  <!-- Toast (live region near end of body for a11y) -->
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">copiato negli appunti</div>
 
+  <!-- Demo modal -->
+  <div class="modal" id="dataModal" aria-hidden="true">
+    <div class="panel" role="dialog" aria-labelledby="dataModalTitle" aria-describedby="dataModalDesc">
+      <h3 id="dataModalTitle">esporta dati (demo)</h3>
+      <p id="dataModalDesc" class="mt-1">nell’app iOS puoi esportare i tuoi dati con filtri e stime. questa è una demo del pannello.</p>
+      <div class="row mt-2">
+        <button class="btn" type="button" id="closeDataModal">chiudi</button>
+        <button class="btn primary" type="button" id="goToAppFromModal">apri l’app</button>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js" defer></script>
+  <script>
+    // Minimal inline glue that complements script.js without duplicating behaviors.
+
+    // External open helpers
+    const openWeb = () => location.assign('/app');
+    const openStore = () => open('https://apps.apple.com/', '_blank', 'noopener');
+
+    // Extra CTAs
+    document.getElementById('btnGetApp3')?.addEventListener('click', openStore);
+    document.getElementById('btnOpenWeb2')?.addEventListener('click', openWeb);
+
+    // Modal open/close with Esc and focus restore
+    const dataModal = document.getElementById('dataModal');
+    const openBtn = document.getElementById('btnDataModal');
+    const closeBtn = document.getElementById('closeDataModal');
+    const goBtn = document.getElementById('goToAppFromModal');
+    let lastFocused = null;
+
+    const setModalOpen = (open) => {
+      if (!dataModal) return;
+      dataModal.classList.toggle('is-open', open);
+      dataModal.setAttribute('aria-hidden', String(!open));
+      document.body.classList.toggle('no-scroll', open);
+      if (open) {
+        lastFocused = document.activeElement;
+        const focusable = dataModal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        focusable?.focus({ preventScroll: true });
+      } else {
+        lastFocused?.focus?.();
+      }
+    };
+
+    const trapFocus = (e) => {
+      if (!dataModal?.classList.contains('is-open')) return;
+      const focusables = dataModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      const list = Array.from(focusables);
+      if (!list.length) return;
+      const first = list[0];
+      const last = list[list.length - 1];
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      } else if (e.key === 'Escape') {
+        setModalOpen(false);
+      }
+    };
+
+    const openModal = () => setModalOpen(true);
+    const closeModal = () => setModalOpen(false);
+
+    openBtn?.addEventListener('click', openModal);
+    closeBtn?.addEventListener('click', closeModal);
+    goBtn?.addEventListener('click', () => { closeModal(); openWeb(); });
+    dataModal?.addEventListener('click', (e) => { if (e.target === dataModal) closeModal(); });
+    window.addEventListener('keydown', trapFocus);
+
+    // Scroll progress bar wiring (#routeProgress)
+    const routeProgress = document.getElementById('routeProgress');
+    const onScrollProgress = () => {
+      if (!routeProgress) return;
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = height > 0 ? (scrollTop / height) * 100 : 0;
+      routeProgress.style.setProperty('--progress', pct.toFixed(2) + '%');
+      routeProgress.style.transform = `scaleX(${Math.min(1, Math.max(0, pct/100))})`;
+    };
+    onScrollProgress();
+    window.addEventListener('scroll', onScrollProgress, { passive: true });
+
+    // Back-to-top button
+    const backToTop = document.getElementById('backToTop');
+    const toggleTop = () => {
+      if (!backToTop) return;
+      const show = window.scrollY > 600;
+      backToTop.hidden = !show;
+    };
+    toggleTop();
+    window.addEventListener('scroll', toggleTop, { passive: true });
+    backToTop?.addEventListener('click', () => {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+      document.getElementById('main')?.focus({ preventScroll: true });
+    });
+
+    // Skip link: ensure focus lands on main
+    document.querySelector('.skip-link')?.addEventListener('click', () => {
+      setTimeout(() => document.getElementById('main')?.focus({ preventScroll: true }), 0);
+    });
+
+    // Optional: set aria-current on tabs based on hash on load
+    window.addEventListener('load', () => {
+      const hash = location.hash;
+      if (!hash) return;
+      document.querySelectorAll('.tabs .tab').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === hash ? 'true' : 'false'));
+    });
+  </script>
 </body>
 </html>
