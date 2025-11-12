@@ -1,507 +1,1545 @@
 <!doctype html>
-<html lang="it">
+<html lang="en" class="no-js">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-  <title>eepy — be softly social</title>
-
-  <!-- SEO basics -->
-  <meta name="description" content="eepy è un social morbido: condividi momenti veri con le persone che ami. Niente rumore, solo calma, cura e connessioni che contano. Private by default." />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>eepy — a calmer social</title>
+  <meta name="description" content="eepy is a minimal, calmer social network. thoughtful posts, gentle design, fewer distractions.">
+  <meta name="theme-color" content="#0A84FF" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#0A84FF" media="(prefers-color-scheme: light)">
   <link rel="canonical" href="https://eepy.app/">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="prefetch" href="/app" as="document" crossorigin>
 
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="eepy — be softly social">
-  <meta property="og:description" content="condividi momenti veri con le persone che ami. niente rumore, solo calma, cura e connessioni che contano.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="eepy — a calmer social">
+  <meta property="og:site_name" content="eepy">
+  <meta property="og:description" content="minimal, thoughtful social. gentle design, fewer distractions.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://eepy.app/">
-  <meta property="og:image" content="https://eepy.app/images/og.jpg">
-  <meta property="og:image:secure_url" content="https://eepy.app/images/og.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:image" content="/og.png">
+  <meta property="og:image:alt" content="eepy — a calmer social preview">
+
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="eepy — be softly social">
-  <meta name="twitter:description" content="condividi momenti veri con le persone che ami. niente rumore, solo calma, cura e connessioni che contano.">
-  <meta name="twitter:image" content="https://eepy.app/images/og.jpg">
+  <meta name="twitter:title" content="eepy — a calmer social">
+  <meta name="twitter:description" content="minimal, thoughtful social. gentle design, fewer distractions.">
+  <meta name="twitter:image" content="/og.png">
 
-  <!-- PWA / Apple -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="eepy">
-  <meta name="format-detection" content="telephone=no">
-  <link rel="apple-touch-icon" href="/icons/icon-192.png">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="icon" type="image/png" href="/icons/icon-192.png" />
-  <link rel="mask-icon" href="/icons/maskable-icon-512.png" color="#0a84ff">
+  <style>
+    /* Design Tokens */
+    :root {
+      --bg: #0b0b0c;
+      --card: #121214;
+      --muted: #8A8A8E;
+      --text: #F2F2F3;
+      --shadow: 0 6px 16px rgba(0,0,0,0.25);
+      --ring: rgba(10,132,255,0.35);
+      --accent: #0A84FF;
+      --accent-weak: rgba(10,132,255,0.12);
+      --success: #34C759;
+      --warning: #FFD60A;
+      --danger: #FF3B30;
 
-  <!-- Performance hints -->
-  <!-- Align preload to an actual local asset if available; otherwise remove to avoid wasted bytes -->
-  <!-- If you host the preview locally as /images/app-preview-1.jpg, keep the preload below -->
-  <!-- <link rel="preload" as="image" href="/images/app-preview-1.jpg" imagesizes="(max-width: 980px) 100vw, 50vw" /> -->
-  <link rel="preconnect" href="https://i.pinimg.com" crossorigin>
-  <link rel="dns-prefetch" href="//i.pinimg.com">
+      --radius-xl: 20px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 10px;
 
-  <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style2.css">
+      --gap: 16px;
+      --gap-lg: 24px;
+      --gap-xl: 48px;
 
+      --maxw: 1120px;
+      --maxw-wide: 1280px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sf: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-  <!-- JSON-LD: Organization + WebSite -->
+      --ease-spring: cubic-bezier(.2,.8,.2,1);
+      --ease-out: cubic-bezier(.16,1,.3,1);
+      --blur: saturate(180%) blur(16px);
+      --glass: color-mix(in oklab, var(--bg) 85%, transparent);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #FBFBFD;
+        --card: #FFFFFF;
+        --muted: #6B7280;
+        --text: #0B0B0C;
+        --shadow: 0 6px 18px rgba(0,0,0,0.08);
+        --ring: rgba(10,132,255,0.25);
+        --glass: color-mix(in oklab, var(--bg) 86%, transparent);
+      }
+    }
+
+    /* Reset */
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sf);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 800px at 90% -10%, rgba(10,132,255,0.06), transparent 55%),
+        radial-gradient(900px 600px at -10% 10%, rgba(255,255,255,0.06), transparent 40%),
+        var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.45;
+    }
+    .container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+    .container-wide { width: 100%; max-width: var(--maxw-wide); margin: 0 auto; padding: 0 16px; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: transparent; border: none; cursor: pointer; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* Skip link */
+    .skip { position: absolute; left: -999px; top: -999px; }
+    .skip:focus { left: 16px; top: 16px; z-index: 100; background: var(--card); padding: 8px 12px; border-radius: 10px; outline: 2px solid var(--ring); }
+
+    /* Utilities */
+    .mono { font-family: var(--mono); }
+    .muted { color: var(--muted); }
+    .grad { background: linear-gradient(135deg, var(--accent), #66A6FF); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .glass {
+      backdrop-filter: var(--blur);
+      background: var(--glass);
+    }
+    .inset-sm { padding: 14px; }
+    .inset { padding: 16px; }
+    .inset-lg { padding: 20px; }
+    .ring:focus-visible {
+      outline: 2px solid var(--ring);
+      outline-offset: 2px;
+    }
+    .grid { display: grid; gap: var(--gap-lg); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid-auto { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 900px) {
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: 1fr; }
+    }
+    .stack { display: grid; gap: var(--gap); }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px;
+      background: color-mix(in oklab, var(--card) 92%, transparent);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      transition: transform .2s var(--ease-spring), background .2s ease, border-color .2s ease;
+      will-change: transform;
+    }
+    .badge:hover { transform: translateY(-1px); background: color-mix(in oklab, var(--card) 88%, transparent); border-color: rgba(255,255,255,0.12); }
+    .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-weak); }
+
+    /* Nav */
+    .nav {
+      position: sticky; top: 0; z-index: 120;
+      backdrop-filter: var(--blur);
+      background: var(--glass);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: backdrop-filter .2s ease, background .2s ease, transform .2s var(--ease-spring), border-color .2s ease;
+    }
+    .nav.compact { transform: translateY(-4px); border-color: rgba(255,255,255,0.1); }
+    .nav-inner { display: flex; align-items: center; gap: 12px; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 999px; }
+    .logo {
+      width: 28px; height: 28px; border-radius: 8px; display: inline-grid; place-items: center;
+      background: linear-gradient(135deg, var(--accent), #66A6FF); color: white;
+      box-shadow: 0 6px 14px rgba(10,132,255,0.35);
+      transform: translateY(0);
+      transition: transform .3s var(--ease-spring), box-shadow .3s var(--ease-spring);
+      font-weight: 700;
+    }
+    .brand:hover .logo { transform: translateY(-1px) scale(1.02); box-shadow: 0 10px 22px rgba(10,132,255,0.35); }
+    .brand-name { font-weight: 700; letter-spacing: -0.2px; }
+    .brand-sub { font-size: 12px; color: var(--muted); font-family: var(--mono); display: none; }
+    @media (min-width: 520px) { .brand-sub { display: inline; } }
+    .nav-spacer { flex: 1; }
+    .nav-cta { display: flex; gap: 8px; align-items: center; }
+    .btn {
+      padding: 10px 14px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: color-mix(in oklab, var(--card) 92%, transparent);
+      transition: transform .2s var(--ease-spring), background .2s ease, border-color .2s ease, box-shadow .2s ease;
+      will-change: transform;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary {
+      background: linear-gradient(140deg, var(--accent), color-mix(in oklab, var(--accent) 75%, #ffffff 25%));
+      color: white; border: 0; box-shadow: 0 8px 20px rgba(10,132,255,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-1px) scale(1.01); }
+    .btn-ghost { background: transparent; }
+    .btn[aria-current="page"] { border-color: rgba(10,132,255,0.35); box-shadow: inset 0 0 0 1px rgba(10,132,255,0.15); }
+
+    /* Mobile menu */
+    .menu-toggle {
+      width: 38px; height: 38px; border-radius: 12px; display: inline-grid; place-items: center;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: color-mix(in oklab, var(--card) 92%, transparent);
+    }
+    .hamburger, .hamburger::before, .hamburger::after {
+      content: ""; display: block; width: 18px; height: 2px; background: var(--text); border-radius: 2px; transition: transform .25s var(--ease-spring), opacity .2s ease;
+    }
+    .hamburger::before { transform: translateY(-6px); }
+    .hamburger::after { transform: translateY(6px); }
+    .menu-open .hamburger { opacity: 0; }
+    .menu-open .hamburger::before { transform: rotate(45deg); }
+    .menu-open .hamburger::after { transform: rotate(-45deg); }
+
+    .mobile-panel {
+      position: fixed; inset: 64px 0 auto 0; background: color-mix(in oklab, var(--bg) 94%, transparent);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+      transform: translateY(-10px); opacity: 0; pointer-events: none;
+      transition: transform .25s var(--ease-spring), opacity .25s var(--ease-spring);
+    }
+    .mobile-panel.on { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .mobile-links { display: grid; gap: 8px; padding: 12px 16px 16px; }
+    .mobile-links a { padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); background: color-mix(in oklab, var(--card) 92%, transparent); }
+
+    @media (max-width: 760px) {
+      .nav-cta { display: none; }
+      .menu-toggle { display: inline-grid; }
+    }
+    @media (min-width: 761px) {
+      .menu-toggle, .mobile-panel { display: none; }
+    }
+
+    /* Progress bar */
+    .progress {
+      position: fixed; top: 0; left: 0; height: 2px; width: 0%; z-index: 130;
+      background: linear-gradient(90deg, var(--accent), #66A6FF);
+      box-shadow: 0 0 24px rgba(10,132,255,0.35);
+      transform-origin: 0 0;
+    }
+
+    /* Hero */
+    .hero { padding: 96px 0 56px; }
+    .hero-wrap { display: grid; gap: var(--gap-xl); grid-template-columns: 1.1fr 1fr; align-items: center; }
+    @media (max-width: 980px) { .hero-wrap { grid-template-columns: 1fr; } }
+    .kicker { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-family: var(--mono); }
+    .title { font-size: clamp(32px, 6vw, 56px); line-height: 1.02; letter-spacing: -0.02em; margin: 6px 0 10px; font-weight: 800; }
+    .subtitle { color: var(--muted); font-size: 16px; line-height: 1.6; }
+    .hero-cta { display: flex; gap: 10px; margin-top: 18px; align-items: center; flex-wrap: wrap; }
+    .note { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+
+    /* Mock preview */
+    .preview { position: relative; padding: 14px; border-radius: var(--radius-lg); background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.06); overflow: hidden; }
+    .orb {
+      position: absolute; width: 320px; height: 320px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(10,132,255,0.25), transparent 60%);
+      filter: blur(18px); opacity: .65; animation: float 16s var(--ease-out) infinite alternate;
+      pointer-events: none;
+    }
+    .orb.b { left: -60px; bottom: -60px; }
+    .orb.a { right: -80px; top: -80px; animation-delay: -6s; }
+    @keyframes float { from { transform: translateY(0) translateX(0); } to { transform: translateY(18px) translateX(12px); } }
+
+    .phone {
+      aspect-ratio: 9/19.5; width: 100%; max-width: 420px; margin: 0 auto;
+      border-radius: 28px; border: 1px solid rgba(255,255,255,0.08);
+      background: var(--card); box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+      transform-style: preserve-3d;
+    }
+    .notch { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 38%; height: 22px; background: #111; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); }
+    .feed { position: absolute; inset: 0; padding: 42px 12px 12px; display: grid; gap: 10px; overflow: hidden; }
+    .post {
+      background: color-mix(in oklab, var(--card) 94%, transparent);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px; padding: 10px; display: grid; grid-template-columns: 36px 1fr; gap: 10px;
+      transition: transform .25s var(--ease-spring), border-color .25s ease, background .25s ease, box-shadow .25s ease;
+      will-change: transform;
+    }
+    .post:hover { transform: translateY(-2px); border-color: rgba(10,132,255,0.25); background: color-mix(in oklab, var(--card) 88%, transparent); box-shadow: 0 10px 18px rgba(0,0,0,0.18); }
+    .avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #FF8A8A, #FFC37A); box-shadow: 0 6px 14px rgba(0,0,0,0.18); }
+    .handle { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+    .content { font-size: 14px; line-height: 1.5; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 11px; padding: 4px 8px; border-radius: 999px;
+      background: var(--accent-weak); color: var(--accent); border: 1px solid rgba(10,132,255,0.18);
+    }
+    .toolbar { display: flex; gap: 10px; align-items: center; margin-top: 6px; color: var(--muted); }
+    .tool { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 10px; transition: background .2s ease, transform .2s var(--ease-spring), color .2s ease; }
+    .tool:hover { background: rgba(255,255,255,0.06); transform: translateY(-1px); color: var(--text); }
+    .tool .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); transition: background .2s ease; }
+    .tool.like.active .dot { background: var(--danger); }
+
+    /* Sections */
+    section { padding: 72px 0; }
+    .section-head { margin-bottom: 22px; }
+    .section-title { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
+    .section-sub { font-size: 14px; color: var(--muted); }
+
+    /* Feature cards */
+    .feature { padding: 16px; display: grid; gap: 8px; transition: transform .25s var(--ease-spring), border-color .25s ease, background .25s ease, box-shadow .25s ease; }
+    .feature:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.08); background: color-mix(in oklab, var(--card) 92%, transparent); box-shadow: 0 10px 18px rgba(0,0,0,0.18); }
+    .feature .icon {
+      width: 28px; height: 28px; border-radius: 8px; display: inline-grid; place-items: center;
+      background: var(--accent-weak); color: var(--accent); border: 1px solid rgba(10,132,255,0.18); font-weight: 700;
+    }
+
+    /* Switcher */
+    .switcher { display: inline-flex; gap: 6px; padding: 6px; border-radius: 999px; background: color-mix(in oklab, var(--card) 92%, transparent); border: 1px solid rgba(255,255,255,0.08); }
+    .switcher [role="tab"] {
+      padding: 6px 10px; border-radius: 999px; border: 1px solid transparent; font-family: var(--mono); font-size: 12px;
+      transition: transform .2s var(--ease-spring), background .2s ease, border-color .2s ease;
+    }
+    .switcher [role="tab"][aria-selected="true"] {
+      background: var(--accent-weak); color: var(--accent); border-color: rgba(10,132,255,0.18);
+    }
+    .pane { display: none; }
+    .pane.on { display: block; }
+
+    /* Steps */
+    .steps { display: grid; gap: var(--gap-lg); grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .step { padding: 16px; display: grid; gap: 8px; }
+    .num { width: 24px; height: 24px; border-radius: 8px; display: inline-grid; place-items: center; font-size: 12px; background: var(--accent-weak); color: var(--accent); border: 1px solid rgba(10,132,255,0.18); }
+    @media (max-width: 900px) { .steps { grid-template-columns: 1fr; } }
+
+    /* Testimonial */
+    .testimonial { padding: 18px; display: grid; gap: 10px; }
+    .quote { font-size: 16px; line-height: 1.6; }
+    .who { display: flex; align-items: center; gap: 10px; }
+    /* Carousel */
+    .carousel { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(280px, 1fr); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; }
+    .carousel > * { scroll-snap-align: start; }
+
+    /* Stats */
+    .stats { display: grid; gap: var(--gap); grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .stat { padding: 16px; }
+    .stat .value { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+    .stat .label { color: var(--muted); font-size: 13px; }
+    @media (max-width: 900px) { .stats { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+    /* Screens duo + browser */
+    .screens { display: grid; gap: var(--gap-lg); grid-template-columns: repeat(2, minmax(0,1fr)); align-items: center; }
+    @media (max-width: 980px) { .screens { grid-template-columns: 1fr; } }
+    .browser {
+      border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); background: var(--card); box-shadow: var(--shadow); overflow: hidden;
+    }
+    .browser .chrome {
+      height: 36px; display: flex; align-items: center; gap: 8px; padding: 0 10px; border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    }
+    .dot3 { display: inline-flex; gap: 6px; }
+    .dot3 span { width: 10px; height: 10px; border-radius: 50%; background: color-mix(in oklab, var(--muted) 40%, transparent); }
+
+    /* Pricing */
+    .pricing { display: grid; gap: var(--gap-lg); }
+    .plan {
+      padding: 18px; display: grid; gap: 10px;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform .25s var(--ease-spring), border-color .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+    .plan:hover { transform: translateY(-2px); border-color: rgba(10,132,255,0.25); background: color-mix(in oklab, var(--card) 90%, transparent); box-shadow: 0 10px 18px rgba(0,0,0,0.18); }
+    .price { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+    .plan ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .plan li { display: flex; align-items: center; gap: 8px; }
+    .check { width: 18px; height: 18px; border-radius: 6px; background: var(--accent-weak); display: inline-grid; place-items: center; color: var(--accent); border: 1px solid rgba(10,132,255,0.18); }
+
+    /* Comparison */
+    .compare { display: grid; gap: 10px; }
+    .compare .row { justify-content: space-between; }
+    .pill { display:inline-flex; align-items:center; gap:8px; padding:4px 10px; border-radius:999px; font-size:12px; border:1px solid rgba(255,255,255,0.08); background: color-mix(in oklab, var(--card) 92%, transparent); }
+    .ok { color: var(--success); }
+    .no { color: var(--danger); }
+
+    /* Timeline (changelog) */
+    .timeline { position: relative; padding-left: 18px; display: grid; gap: 12px; }
+    .timeline::before { content: ""; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: rgba(255,255,255,0.08); border-radius: 2px; }
+    .event { position: relative; padding-left: 12px; }
+    .event::before { content: ""; position: absolute; left: -4px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-weak); }
+
+    /* FAQ */
+    details.faq {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-md); padding: 12px 14px;
+      transition: background .25s ease, border-color .25s ease;
+    }
+    details.faq[open] { background: color-mix(in oklab, var(--card) 92%, transparent); border-color: rgba(10,132,255,0.18); }
+    summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+    summary::-webkit-details-marker { display: none; }
+    summary .q { font-weight: 600; }
+    summary .caret { width: 18px; height: 18px; border-radius: 6px; background: var(--accent-weak); color: var(--accent); display: inline-grid; place-items: center; font-size: 12px; }
+    .a { color: var(--muted); margin-top: 8px; line-height: 1.6; }
+
+    /* Footer */
+    .footer { padding: 36px 0 56px; color: var(--muted); font-size: 13px; }
+    .footer .links { display: flex; gap: 14px; flex-wrap: wrap; }
+    .sep { opacity: .35; }
+
+    /* Newsletter */
+    .newsletter { display: grid; gap: 10px; grid-template-columns: 1fr auto; align-items: center; }
+    .field {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 12px; color: var(--text);
+    }
+    .field::placeholder { color: color-mix(in oklab, var(--muted) 85%, transparent); }
+
+    /* Animations on view */
+    .reveal { opacity: 0; transform: translateY(8px) scale(.98); }
+    .reveal.on { opacity: 1; transform: none; transition: opacity .5s var(--ease-spring), transform .6s var(--ease-spring); }
+
+    /* Tilt */
+    [data-tilt] { transform-style: preserve-3d; }
+    [data-tilt] .tilt-raise { transform: translateZ(14px); }
+
+    /* Floating actions */
+    .to-top {
+      position: fixed; right: 16px; bottom: 16px; width: 40px; height: 40px; border-radius: 12px;
+      display: grid; place-items: center; background: color-mix(in oklab, var(--card) 92%, transparent);
+      border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow);
+      transform: translateY(8px) scale(.96); opacity: 0; pointer-events: none; z-index: 110;
+      transition: transform .25s var(--ease-spring), opacity .25s var(--ease-spring);
+    }
+    .to-top.on { transform: none; opacity: 1; pointer-events: auto; }
+
+    /* Sticky CTA */
+    .sticky-cta {
+      position: fixed; left: 50%; bottom: 16px; transform: translate(-50%, 12px);
+      display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center;
+      width: min(680px, calc(100% - 32px));
+      padding: 12px; border-radius: 14px; box-shadow: var(--shadow);
+      background: color-mix(in oklab, var(--card) 96%, transparent);
+      border: 1px solid rgba(255,255,255,0.08);
+      opacity: 0; pointer-events: none; z-index: 105;
+      transition: transform .25s var(--ease-spring), opacity .25s var(--ease-spring);
+    }
+    .sticky-cta.on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+
+    /* Reduced motion / data */
+    .reduce-motion .btn,
+    .reduce-motion .post,
+    .reduce-motion .feature,
+    .reduce-motion .plan,
+    .reduce-motion .tool,
+    .reduce-motion .logo,
+    .reduce-motion .nav,
+    .reduce-motion .mobile-panel,
+    .reduce-motion .reveal,
+    .reduce-motion .to-top,
+    .reduce-motion .sticky-cta,
+    .reduce-motion .progress { transition: none !important; }
+    .reduce-motion .reveal { opacity: 1; transform: none; }
+    .reduce-motion .orb { display: none; }
+  </style>
+
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["SoftwareApplication","Organization"],
     "name": "eepy",
+    "applicationCategory": "SocialNetworkingApplication",
+    "operatingSystem": "iOS, Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
     "url": "https://eepy.app/",
-    "logo": "https://eepy.app/icons/icon-192.png",
-    "sameAs": []
+    "logo": "https://eepy.app/apple-touch-icon.png",
+    "description": "A minimal, calmer social network for thoughtful posts and fewer distractions."
   }
   </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "eepy",
-    "url": "https://eepy.app/",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://eepy.app/?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
+  <script>
+    // Progressive enhancement
+    (function(){ document.documentElement.classList.remove('no-js'); document.documentElement.classList.add('js'); })();
   </script>
 </head>
 <body>
-  <a class="skip-link" href="#main">salta al contenuto</a>
-  <div class="backdrop" aria-hidden="true"></div>
+  <a class="skip ring mono" href="#main">skip to content</a>
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
-  <header role="banner" class="site-header" data-elevate>
-  <nav class="nav" aria-label="Primary">
-    <!-- Brand -->
-    <a class="brand" href="/" aria-label="eepy home">
-      <span class="logo" aria-hidden="true"></span>
-      <span class="brand-name">eepy</span>
-    </a>
+  <!-- Nav -->
+  <header class="nav glass" id="nav">
+    <div class="container nav-inner">
+      <a href="/" class="brand ring" aria-label="eepy home">
+        <span class="logo" aria-hidden="true">e</span>
+        <span class="brand-name">eepy</span>
+        <span class="brand-sub">calmer social</span>
+      </a>
 
-    <!-- Nav toggle (mobile) -->
-    <button
-      class="nav-toggle"
-      id="navToggle"
-      aria-expanded="false"
-      aria-controls="primaryTabs"
-      type="button"
-    >
-      <span class="sr-only">Apri il menu</span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
+      <nav class="nav-spacer" aria-label="primary"></nav>
 
-    <!-- Primary navigation -->
-    <div class="tabs" id="primaryTabs" role="navigation" aria-label="Sections">
-      <a href="#features" class="tab" data-spy>funzioni</a>
-      <a href="#how" class="tab" data-spy>come funziona</a>
-      <a href="#privacy" class="tab" data-spy>privacy</a>
-      <a href="#faq" class="tab" data-spy>faq</a>
+      <div class="nav-cta" role="navigation" aria-label="primary actions">
+        <a class="btn btn-ghost ring mono" data-nav="features" href="#features">features</a>
+        <a class="btn btn-ghost ring mono" data-nav="how" href="#how">how it works</a>
+        <a class="btn btn-ghost ring mono" data-nav="privacy" href="#privacy">privacy</a>
+        <a class="btn btn-ghost ring mono" data-nav="pricing" href="#pricing">pricing</a>
+        <a class="btn btn-ghost ring mono" data-nav="faq" href="#faq">faq</a>
+        <a class="btn btn-primary ring mono" href="/app" rel="nofollow">open app</a>
+      </div>
+
+      <button class="menu-toggle ring" id="menuToggle" aria-label="menu" aria-expanded="false" aria-controls="mobilePanel">
+        <span class="hamburger"></span>
+      </button>
     </div>
 
-    <!-- Actions -->
-    <div class="nav-actions">
-      <button class="btn ghost" id="btnSignIn" type="button">accedi</button>
-      <button class="btn primary" id="btnGetApp" type="button">scarica l’app</button>
+    <div class="mobile-panel" id="mobilePanel">
+      <div class="container mobile-links" role="navigation" aria-label="mobile">
+        <a class="mono ring" href="#features">features</a>
+        <a class="mono ring" href="#how">how it works</a>
+        <a class="mono ring" href="#privacy">privacy</a>
+        <a class="mono ring" href="#pricing">pricing</a>
+        <a class="mono ring" href="#faq">faq</a>
+        <a class="mono ring" href="/features.html">full features</a>
+        <a class="mono ring" href="/pricing.html">full pricing</a>
+        <a class="mono ring" href="/contact.html">contact</a>
+        <a class="btn btn-primary ring mono" href="/app" rel="nofollow">open app</a>
+      </div>
     </div>
+  </header>
 
-    <!-- Progress bar -->
-    <div class="progress" id="routeProgress" aria-hidden="true"></div>
-  </nav>
-</header>
-
-
-  <main id="main" role="main" tabindex="-1">
-    <section class="section hero" aria-label="Intro">
-      <div class="orb" aria-hidden="true"></div>
-      <span class="badge" aria-label="private by default">private by default</span>
-      <h1 class="headline">r u eepy?</h1>
-      <p class="subhead">un social morbido. condividi momenti veri con le persone che ami. niente rumore, solo calma, cura e connessioni che contano.</p>
-      <div class="cta" role="group" aria-label="Azioni principali">
-        <button class="btn primary" id="btnJoin" type="button">inizia ora</button>
-        <button class="btn" id="btnLearn" type="button" aria-describedby="micro">scopri</button>
-      </div>
-      <p id="micro" class="subhead microcopy">nessun algoritmo aggressivo. privacy prima di tutto.</p>
-
-      <div class="hero-foot" role="group" aria-label="Scelte piattaforma">
-        <button class="pill" id="pillAppStore" type="button" aria-label="Scarica l’app">
-          <span class="pill-dot" aria-hidden="true"></span>
-          scarica per iOS
-        </button>
-        <button class="pill ghost" id="pillWeb" type="button" aria-label="Apri sul web">
-          <span class="pill-dot" aria-hidden="true"></span>
-          apri sul web
-        </button>
-      </div>
-    </section>
-
-    <section id="features" class="section" aria-label="Funzioni">
-      <div class="section-head">
-        <h2 class="eyebrow">funzioni</h2>
-        <p class="section-sub">costruito con cura, per connessioni piccole ma significative.</p>
-      </div>
-
-      <div class="features grid">
-        <article class="card span-6 reveal" tabindex="0">
-          <h3>micro‑interazioni</h3>
-          <p>tocchi morbidi, feedback tattili e animazioni sottili che fanno sentire l’app viva senza distrarre.</p>
-          <div class="chip">haptics soft · springy</div>
-        </article>
-        <article class="card span-6 reveal" tabindex="0">
-          <h3>cerchie intime</h3>
-          <p>condividi con le persone che scegli. nessuna pressione, solo spazio sicuro.</p>
-          <div class="chip">close friends · inviti</div>
-        </article>
-        <article class="card span-6 reveal" tabindex="0">
-          <h3>frammenti audio</h3>
-          <p>condividi momenti con audio‑storie leggere. intime, naturali, senza sovra‑produzione.</p>
-          <div class="chip">voice notes · stories</div>
-        </article>
-        <article class="card span-6 reveal" tabindex="0">
-          <h3>modalità scura nativa</h3>
-          <p>interfaccia morbida che rispetta i tuoi occhi e le tue preferenze di sistema.</p>
-          <div class="chip">dark mode · accessibility</div>
-      </div>
-    </section>
-
-    <section id="how" class="section" aria-label="Come funziona">
-      <div class="section-head">
-        <h2 class="eyebrow">come funziona</h2>
-        <p class="section-sub">tre passi semplici per sentirti a casa.</p>
-      </div>
-
-      <div class="how">
-        <div class="how-step reveal">
-          <span class="kicker">01</span>
-          <h4>crea il tuo spazio</h4>
-          <p>scegli chi può vederti. profili privati per impostazione predefinita, cerchie su invito.</p>
-        </div>
-        <div class="how-step reveal">
-          <span class="kicker">02</span>
-          <h4>condividi momenti veri</h4>
-          <p>frammenti, audio, foto. naturale, senza sovra‑produzione. niente filtri invadenti.</p>
-        </div>
-        <div class="how-step reveal">
-          <span class="kicker">03</span>
-          <h4>connettiti con calma</h4>
-          <p>feedback morbidi, conversazioni intime, senza inseguire numeri. solo persone.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section preview" aria-label="Anteprima app">
-      <div class="preview-media reveal" aria-label="screenshot dell’app">
-        <img
-          class="blur-up"
-          src="https://i.pinimg.com/1200x/3e/6c/c7/3e6cc73bc5e094ebf51b1b4fcc54a265.jpg"
-          alt="Schermata del feed di eepy"
-          loading="lazy"
-          decoding="async"
-          width="900"
-          height="600"
-          sizes="(max-width: 980px) 100vw, 50vw"
-          fetchpriority="high"
-        />
-      </div>
-      <div class="preview-copy">
-        <h2 class="headline preview-title">pensato per i tuoi ritmi</h2>
-        <p class="subhead">interfaccia morbida, monospazio per i dettagli, e scelte chiare. la calma è una feature.</p>
-        <ul class="bullets">
-          <li><span class="dot" aria-hidden="true"></span> interazioni tattili e animazioni con molla</li>
-          <li><span class="dot" aria-hidden="true"></span> modalità scura nativa e rispetto per accessibilità</li>
-          <li><span class="dot" aria-hidden="true"></span> condivisione selettiva e cerchie intime</li>
-        </ul>
-        <div class="cta left" role="group" aria-label="Azioni anteprima">
-          <button class="btn primary" id="btnGetApp2" type="button">scarica l’app</button>
-          <button class="btn" id="btnOpenWeb" type="button">apri sul web</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" aria-label="Social proof">
-      <div class="section-head">
-        <h2 class="eyebrow">cosa dicono</h2>
-        <p class="section-sub">persone vere, connessioni morbide.</p>
-      </div>
-      <div class="proof">
-        <blockquote class="quote reveal">
-          “mi sento tranquilla qui. niente rumore, solo amici.” — giulia
-          <div class="row mt-2">
-            <span class="avatars" aria-hidden="true">
-              <span class="avatar" aria-hidden="true"></span><span class="avatar" aria-hidden="true"></span><span class="avatar" aria-hidden="true"></span>
-            </span>
-            <span class="badge success">calma · cura</span>
+  <!-- Hero -->
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-wrap">
+        <div class="hero-copy reveal" data-tilt>
+          <div class="kicker mono">minimal. thoughtful. social.</div>
+          <h1 class="title" id="hero-title">a <span class="grad">calmer</span> feed, fewer distractions</h1>
+          <p class="subtitle">eepy is a minimal social network designed to be gentle. share moments, write with intention, and keep your attention yours—no clutter, just people.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary ring mono" href="/app"><span class="tilt-raise">get started</span></a>
+            <a class="btn ring mono" href="#preview"><span class="tilt-raise">see the vibe</span></a>
+            <span class="note">no ads • privacy‑first • iOS & web</span>
           </div>
-        </blockquote>
-        <blockquote class="quote reveal">
-          “le audio‑storie sono intime e leggere. adoro.” — marco
-          <div class="row mt-2">
-            <span class="avatars" aria-hidden="true">
-              <span class="avatar" aria-hidden="true"></span><span class="avatar" aria-hidden="true"></span><span class="avatar" aria-hidden="true"></span>
-            </span>
-            <span class="badge">frammenti audio</span>
+          <div class="badges" style="margin-top:12px;">
+            <span class="badge"><span class="dot" aria-hidden="true"></span><span class="mono">no infinite scroll</span></span>
+            <span class="badge"><span class="dot" aria-hidden="true"></span><span class="mono">accessible by default</span></span>
+            <span class="badge"><span class="dot" aria-hidden="true"></span><span class="mono">end‑to‑end on DMs</span></span>
           </div>
-        </blockquote>
-      </div>
-    </section>
-
-    <section id="privacy" class="section" aria-label="Privacy">
-      <div class="card reveal padded">
-        <h3>privacy, per davvero</h3>
-        <p class="mt-1">raccogliamo il minimo indispensabile. controlli chiari, esportazione dati, e impostazioni trasparenti.</p>
-        <div class="cta mt-2">
-          <a class="btn" href="/privacy">leggi l’informativa</a>
-          <a class="btn ghost" href="/terms">termini</a>
-          <button class="btn ghost" type="button" id="btnDataModal">esporta dati (demo)</button>
         </div>
-      </div>
-    </section>
 
-    <section id="faq" class="section" aria-label="Domande frequenti">
-      <div class="section-head">
-        <h2 class="eyebrow">faq</h2>
-      </div>
-      <div class="faq">
-        <details class="reveal">
-          <summary>eepy usa un feed algoritmico?</summary>
-          <p>no. priorità alle persone che scegli, non a quello che “performano”.</p>
-        </details>
-        <details class="reveal">
-          <summary>posso esportare i miei dati?</summary>
-          <p>sì. l’app consente l’esportazione dei dati e la cancellazione dell’account.</p>
-        </details>
-        <details class="reveal">
-          <summary>è disponibile su iOS e web?</summary>
-          <p>sì. app nativa per iOS e versione web minimale, con sincronizzazione.</p>
-        </details>
-      </div>
-    </section>
-
-    <!-- Social preview (modular demo) -->
-    <section class="section" aria-label="Anteprima social">
-      <div class="feed">
-        <div class="composer reveal" role="form" aria-label="Crea post">
-          <div class="composer-row">
-            <div class="avatar" aria-hidden="true"></div>
-            <textarea placeholder="Cosa stai pensando?" aria-label="Testo del post"></textarea>
-          </div>
-          <div class="composer-actions">
-            <div class="composer-tools" role="group" aria-label="Strumenti">
-              <button class="icon-btn tooltip" data-tip="Aggiungi foto" aria-label="Aggiungi foto" type="button">📷</button>
-              <button class="icon-btn tooltip" data-tip="Aggiungi audio" aria-label="Aggiungi audio" type="button">🎙️</button>
-              <button class="icon-btn tooltip" data-tip="Aggiungi luogo" aria-label="Aggiungi luogo" type="button">📍</button>
+        <div class="preview reveal" id="preview" aria-label="app preview" data-tilt>
+          <div class="orb a" aria-hidden="true"></div>
+          <div class="orb b" aria-hidden="true"></div>
+          <div class="phone" role="img" aria-label="eepy mobile mock">
+            <div class="notch"></div>
+            <div class="feed" id="feed" aria-live="polite">
+              <!-- posts injected by JS for subtle motion -->
             </div>
-            <button class="btn primary" type="button">pubblica</button>
+          </div>
+          <div style="display:flex; justify-content:center; margin-top:12px;">
+            <div class="switcher" role="tablist" aria-label="feature switcher">
+              <button class="ring" role="tab" aria-selected="true" data-switch="feed" aria-controls="pane-feed">feed</button>
+              <button class="ring" role="tab" aria-selected="false" data-switch="compose" aria-controls="pane-compose">compose</button>
+              <button class="ring" role="tab" aria-selected="false" data-switch="dms" aria-controls="pane-dms">dms</button>
+            </div>
+          </div>
+          <div style="position:relative; margin-top:10px;">
+            <div class="pane on" data-pane="feed" id="pane-feed" aria-live="polite"></div>
+            <div class="pane" data-pane="compose" id="pane-compose" aria-live="polite"></div>
+            <div class="pane" data-pane="dms" id="pane-dms" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Highlights -->
+    <section aria-label="highlights">
+      <div class="container grid grid-4">
+        <div class="feature card inset-sm reveal" data-tilt>
+          <div class="icon" aria-hidden="true">🕰️</div>
+          <div class="mono muted">chronological</div>
+          <div>no algorithmic tricks — see posts in time order.</div>
+        </div>
+        <div class="feature card inset-sm reveal" data-tilt>
+          <div class="icon" aria-hidden="true">🔕</div>
+          <div class="mono muted">quiet by default</div>
+          <div>gentle notifications, no streaks, no badges.</div>
+        </div>
+        <div class="feature card inset-sm reveal" data-tilt>
+          <div class="icon" aria-hidden="true">♿️</div>
+          <div class="mono muted">accessible</div>
+          <div>keyboard friendly, screen‑reader ready, high contrast.</div>
+        </div>
+        <div class="feature card inset-sm reveal" data-tilt>
+          <div class="icon" aria-hidden="true">🔒</div>
+          <div class="mono muted">privacy‑first</div>
+          <div>minimal data, e2e DMs, export & delete anytime.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trusted by -->
+    <section aria-label="trusted by">
+      <div class="container">
+        <div class="card inset-sm reveal">
+          <div class="kicker mono" style="text-align:center; margin-bottom:8px;">trusted by thoughtful communities</div>
+          <div style="display:flex; gap:18px; justify-content:center; flex-wrap:wrap; opacity:.85;">
+            <span class="mono muted">writers</span>
+            <span class="mono muted">students</span>
+            <span class="mono muted">teams</span>
+            <span class="mono muted">creators</span>
+            <span class="mono muted">friends</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section aria-label="stats">
+      <div class="container grid">
+        <div class="card inset reveal">
+          <div class="stats">
+            <div class="stat">
+              <div class="value mono" data-count="128">0</div>
+              <div class="label">communities</div>
+            </div>
+            <div class="stat">
+              <div class="value mono" data-count="98">0</div>
+              <div class="label">countries</div>
+            </div>
+            <div class="stat">
+              <div class="value mono" data-count="99">0</div>
+              <div class="label">uptime %</div>
+            </div>
+            <div class="stat">
+              <div class="value mono" data-count="0.7">0</div>
+              <div class="label">avg. min/session</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker mono">features</div>
+          <h2 class="section-title" id="features-title">built for comfort, not chaos</h2>
+          <p class="section-sub">gentle micro‑interactions, readable typography, and controls you actually want.</p>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="feature card reveal" aria-label="clean feed" data-tilt>
+            <div class="icon" aria-hidden="true">🌿</div>
+            <h3>clean, readable feed</h3>
+            <p class="muted">rounded cards, monospaced accents, and subtle motion—easy on the eyes, familiar to the touch.</p>
+          </article>
+
+          <article class="feature card reveal" aria-label="privacy controls" data-tilt>
+            <div class="icon" aria-hidden="true">🔒</div>
+            <h3>you’re in control</h3>
+            <p class="muted">clear privacy settings, content warnings, and minimal data collection. your attention is yours.</p>
+          </article>
+
+          <article class="feature card reveal" aria-label="micro interactions" data-tilt>
+            <div class="icon" aria-hidden="true">✨</div>
+            <h3>gentle interactions</h3>
+            <p class="muted">soft hovers, tiny bounces, and thoughtful feedback make actions feel responsive without noise.</p>
+          </article>
+
+          <article class="feature card reveal" aria-label="focused composer" data-tilt>
+            <div class="icon" aria-hidden="true">✍️</div>
+            <h3>focused writing</h3>
+            <p class="muted">a distraction‑free composer with markdown touches and smart defaults—say more with less.</p>
+          </article>
+
+          <article class="feature card reveal" aria-label="healthy defaults" data-tilt>
+            <div class="icon" aria-hidden="true">🛡️</div>
+            <h3>healthy defaults</h3>
+            <p class="muted">mute, block, and report flows that are simple, clear, and quick. safety without friction.</p>
+          </article>
+
+          <article class="feature card reveal" aria-label="platform sync" data-tilt>
+            <div class="icon" aria-hidden="true">📱</div>
+            <h3>web + iOS</h3>
+            <p class="muted">the same calm design across platforms. sign in anywhere, continue where you left off.</p>
+          </article>
+
+          <article class="feature card reveal" aria-label="chronological feed" data-tilt>
+            <div class="icon" aria-hidden="true">🕰️</div>
+            <h3>chronological</h3>
+            <p class="muted">no “gotchas.” posts are shown in time order so you never miss what matters.</p>
+          </article>
+
+          <article class="feature card reveal" aria-label="collections" data-tilt>
+            <div class="icon" aria-hidden="true">📂</div>
+            <h3>collections</h3>
+            <p class="muted">save and group posts into collections to revisit without scrolling forever.</p>
+          </article>
+
+          <article class="feature card reveal" aria-label="break reminders" data-tilt>
+            <div class="icon" aria-hidden="true">⏸️</div>
+            <h3>take a breath</h3>
+            <p class="muted">gentle prompts encourage breaks so your time online stays healthy.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" aria-labelledby="how-title">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker mono">how it works</div>
+          <h2 class="section-title" id="how-title">start calm, stay calm</h2>
+          <p class="section-sub">three steps to your gentler social space.</p>
+        </div>
+        <div class="steps">
+          <div class="step card reveal" data-tilt>
+            <div class="num mono">1</div>
+            <h3>sign up</h3>
+            <p class="muted">use email to create an account in seconds. no phone number required.</p>
+          </div>
+          <div class="step card reveal" data-tilt>
+            <div class="num mono">2</div>
+            <h3>write with intention</h3>
+            <p class="muted">compose with markdown touches, add content warnings if needed, and choose your audience.</p>
+          </div>
+          <div class="step card reveal" data-tilt>
+            <div class="num mono">3</div>
+            <h3>share & connect</h3>
+            <p class="muted">follow people who matter. no algorithmic noise—just a clean chronological feed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screens (feed + composer + browser) -->
+    <section aria-label="screens">
+      <div class="container screens">
+        <div class="preview card reveal" aria-label="feed preview" data-tilt>
+          <div class="phone" role="img" aria-label="eepy feed mock">
+            <div class="notch"></div>
+            <div class="feed" id="feed2" aria-live="polite"></div>
+          </div>
+        </div>
+        <div class="preview card reveal" aria-label="composer preview" data-tilt>
+          <div class="phone" role="img" aria-label="eepy composer mock">
+            <div class="notch"></div>
+            <div class="feed" style="padding: 42px 12px;">
+              <div class="post" aria-label="composer">
+                <div class="avatar" aria-hidden="true"></div>
+                <div>
+                  <div class="handle">@you</div>
+                  <div class="content">
+                    <div class="chip mono" aria-hidden="true">compose</div>
+                    write something thoughtful…
+                  </div>
+                  <div class="toolbar" role="group" aria-label="composer actions">
+                    <button class="tool" title="add cw"><span class="dot" aria-hidden="true"></span><span class="mono">cw</span></button>
+                    <button class="tool" title="attach"><span class="dot" aria-hidden="true"></span><span class="mono">attach</span></button>
+                    <button class="tool" title="audience"><span class="dot" aria-hidden="true"></span><span class="mono">audience</span></button>
+                    <button class="tool like active" aria-pressed="true" title="gentle haptics"><span class="dot" aria-hidden="true"></span><span class="mono">post</span></button>
+                  </div>
+                </div>
+              </div>
+              <div class="post muted" aria-hidden="true">
+                <div class="avatar"></div>
+                <div>
+                  <div class="handle">@luna</div>
+                  <div class="content">preview your post here before sharing.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="browser card reveal" aria-label="web app preview" data-tilt>
+          <div class="chrome">
+            <div class="dot3" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="mono muted" style="margin-left:8px;">eepy.app</div>
+          </div>
+          <div style="padding:12px; display:grid; gap:10px;">
+            <div class="badge mono" aria-hidden="true"><span class="dot"></span>web app</div>
+            <p class="muted" style="margin:0;">eepy on desktop is just as calm. keyboard shortcuts, focused composer, and the same gentle interactions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Use cases switcher -->
+    <section aria-label="use cases">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker mono">use cases</div>
+          <h2 class="section-title">made for people, teams, and creators</h2>
+          <p class="section-sub">toggle to see what matters to you.</p>
+        </div>
+        <div class="row" style="justify-content:center; margin-bottom:12px;">
+          <div class="switcher" role="tablist" aria-label="use cases switcher" id="useSwitch">
+            <button class="ring" role="tab" aria-selected="true" data-switch="solo">individuals</button>
+            <button class="ring" role="tab" aria-selected="false" data-switch="teams">teams</button>
+            <button class="ring" role="tab" aria-selected="false" data-switch="creators">creators</button>
+          </div>
+        </div>
+        <div class="grid grid-3">
+          <article class="feature card reveal" data-pane-uc="solo" data-tilt>
+            <div class="icon" aria-hidden="true">🧘</div>
+            <h3>healthy habits</h3>
+            <p class="muted">break reminders, no streaks, and a timeline that ends.</p>
+          </article>
+          <article class="feature card reveal" data-pane-uc="solo" data-tilt>
+            <div class="icon" aria-hidden="true">🔐</div>
+            <h3>private by default</h3>
+            <p class="muted">choose your audience on every post. activity status is optional.</p>
+          </article>
+
+          <article class="feature card reveal" data-pane-uc="teams" hidden data-tilt>
+            <div class="icon" aria-hidden="true">👥</div>
+            <h3>spaces</h3>
+            <p class="muted">private team spaces with roles, moderation, and collections.</p>
+          </article>
+          <article class="feature card reveal" data-pane-uc="teams" hidden data-tilt>
+            <div class="icon" aria-hidden="true">⚡️</div>
+            <h3>fast, simple</h3>
+            <p class="muted">keyboard shortcuts and calm notifications keep focus on work.</p>
+          </article>
+
+          <article class="feature card reveal" data-pane-uc="creators" hidden data-tilt>
+            <div class="icon" aria-hidden="true">🎨</div>
+            <h3>show your work</h3>
+            <p class="muted">beautiful post cards with media, captions, and collections.</p>
+          </article>
+          <article class="feature card reveal" data-pane-uc="creators" hidden data-tilt>
+            <div class="icon" aria-hidden="true">📊</div>
+            <h3>insights, not noise</h3>
+            <p class="muted">lightweight stats, no vanity numbers, no pressure.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy & Safety -->
+    <section id="privacy" aria-labelledby="privacy-title">
+      <div class="container grid grid-2">
+        <div class="card inset reveal" data-tilt>
+          <div class="section-head" style="margin-bottom:8px;">
+            <div class="kicker mono">privacy</div>
+            <h2 class="section-title" id="privacy-title">your data, your choice</h2>
+          </div>
+          <ul style="margin:0; padding:0 0 0 0; list-style:none; display:grid; gap:10px;">
+            <li class="muted"><span class="check">✓</span> minimal analytics, no ads, no trackers</li>
+            <li class="muted"><span class="check">✓</span> end‑to‑end encryption on DMs</li>
+            <li class="muted"><span class="check">✓</span> content warnings & audience controls</li>
+            <li class="muted"><span class="check">✓</span> export & delete your data anytime</li>
+          </ul>
+        </div>
+        <div class="card inset reveal" data-tilt>
+          <div class="section-head" style="margin-bottom:8px;">
+            <div class="kicker mono">wellbeing</div>
+            <h2 class="section-title">healthy defaults</h2>
+          </div>
+          <ul style="margin:0; padding:0 0 0 0; list-style:none; display:grid; gap:10px;">
+            <li class="muted"><span class="check">✓</span> chronological feed</li>
+            <li class="muted"><span class="check">✓</span> no infinite scroll or streaks</li>
+            <li class="muted"><span class="check">✓</span> gentle reminders to take breaks</li>
+            <li class="muted"><span class="check">✓</span> rich mute & block tools</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section aria-label="comparison">
+      <div class="container grid grid-2">
+        <div class="card inset reveal" data-tilt>
+          <div class="section-head" style="margin-bottom:8px;">
+            <div class="kicker mono">why eepy</div>
+            <h2 class="section-title">less noise, more you</h2>
+          </div>
+          <div class="compare">
+            <div class="row"><span>infinite scroll</span><span class="pill no mono">no</span></div>
+            <div class="row"><span>algorithmic feed</span><span class="pill no mono">no</span></div>
+            <div class="row"><span>ads & tracking</span><span class="pill no mono">no</span></div>
+            <div class="row"><span>chronological</span><span class="pill ok mono">yes</span></div>
+            <div class="row"><span>content warnings</span><span class="pill ok mono">yes</span></div>
+            <div class="row"><span>e2e encrypted DMs</span><span class="pill ok mono">yes</span></div>
           </div>
         </div>
 
-        <article class="post reveal" tabindex="0">
-          <header class="post-head">
-            <div class="avatar" aria-hidden="true"></div>
-            <div class="post-meta">
-              <span class="post-author">sofia</span>
-              <span class="post-handle">@so</span>
-              <span class="post-time" aria-label="2 ore fa">· 2h</span>
-            </div>
-            <button class="icon-btn tooltip" data-tip="Altro" aria-label="Altro" type="button" aria-haspopup="menu">•••</button>
-          </header>
-          <div class="post-content">
-            oggi sole morbido, caffè lento, playlist piano. tutto bene.
+        <div class="card inset reveal" data-tilt>
+          <div class="section-head" style="margin-bottom:8px;">
+            <div class="kicker mono">performance</div>
+            <h2 class="section-title">fast, lightweight</h2>
           </div>
-          <div class="post-media">
-            <img
-              src="https://i.pinimg.com/1200x/3e/6c/c7/3e6cc73bc5e094ebf51b1b4fcc54a265.jpg"
-              alt="foto del momento"
-              loading="lazy"
-              decoding="async"
-              width="900"
-              height="600"
-              sizes="(max-width: 720px) 100vw, 720px"
-            />
-          </div>
-          <footer class="reactions" aria-label="Reazioni">
-            <button class="react-btn" aria-pressed="false" type="button">💗 <span class="react-count">24</span></button>
-            <button class="react-btn" aria-pressed="false" type="button">💬 <span class="react-count">6</span></button>
-            <button class="react-btn" aria-pressed="false" type="button">↗︎ <span class="react-count">3</span></button>
-            <div class="avatars" aria-label="Piaciuto da">
-              <span class="avatar" aria-hidden="true"></span>
-              <span class="avatar" aria-hidden="true"></span>
-              <span class="avatar" aria-hidden="true"></span>
-            </div>
-          </footer>
+          <ul style="margin:0; padding:0; list-style:none; display:grid; gap:10px;">
+            <li class="muted"><span class="check">✓</span> instant nav, small bundle</li>
+            <li class="muted"><span class="check">✓</span> offline‑ready PWA</li>
+            <li class="muted"><span class="check">✓</span> reduced data mode</li>
+            <li class="muted"><span class="check">✓</span> battery‑friendly animations</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-          <div class="comments" aria-label="Commenti">
-            <div class="comment">
+    <!-- Social proof carousel -->
+    <section aria-label="testimonials">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker mono">what people say</div>
+          <h2 class="section-title">a calmer place to connect</h2>
+          <p class="section-sub">real feedback from early users.</p>
+        </div>
+        <div class="carousel" id="carousel">
+          <figure class="testimonial card reveal" data-tilt>
+            <blockquote class="quote">“eepy feels like a breath of fresh air. i’m posting more and doom‑scrolling less.”</blockquote>
+            <figcaption class="who">
               <div class="avatar" aria-hidden="true"></div>
-              <div class="bubble">anch’io oggi mood piano. ☁️</div>
-            </div>
+              <div>
+                <div class="mono">alex</div>
+                <div class="muted">designer</div>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="testimonial card reveal" data-tilt>
+            <blockquote class="quote">“the micro‑interactions are perfect—responsive, but never loud. it just feels right.”</blockquote>
+            <figcaption class="who">
+              <div class="avatar" aria-hidden="true"></div>
+              <div>
+                <div class="mono">sam</div>
+                <div class="muted">ios dev</div>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="testimonial card reveal" data-tilt>
+            <blockquote class="quote">“i finally feel in control of my feed. eepy respects my time.”</blockquote>
+            <figcaption class="who">
+              <div class="avatar" aria-hidden="true"></div>
+              <div>
+                <div class="mono">jules</div>
+                <div class="muted">writer</div>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="testimonial card reveal" data-tilt>
+            <blockquote class="quote">“it’s quiet when i need it, and delightful when i interact. perfect balance.”</blockquote>
+            <figcaption class="who">
+              <div class="avatar" aria-hidden="true"></div>
+              <div>
+                <div class="mono">nina</div>
+                <div class="muted">student</div>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" aria-labelledby="pricing-title">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker mono">pricing</div>
+          <h2 class="section-title" id="pricing-title">simple and fair</h2>
+          <p class="section-sub">start free. upgrade if you want more.</p>
+        </div>
+
+        <div class="row" style="justify-content:center; margin-bottom:10px;">
+          <div class="switcher" role="tablist" aria-label="billing period" id="billingSwitch">
+            <button class="ring" role="tab" aria-selected="true" data-billing="monthly">monthly</button>
+            <button class="ring" role="tab" aria-selected="false" data-billing="yearly">yearly <span class="mono muted">(-20%)</span></button>
           </div>
+        </div>
+
+        <div class="pricing grid grid-3">
+          <div class="plan card reveal" aria-label="free plan" data-tilt>
+            <div class="chip mono">free</div>
+            <div class="price" data-price="0">$0</div>
+            <ul>
+              <li><span class="check">✓</span> clean feed & composer</li>
+              <li><span class="check">✓</span> basic privacy controls</li>
+              <li><span class="check">✓</span> web + iOS access</li>
+            </ul>
+            <a class="btn btn-primary ring mono" href="/app">get started</a>
+          </div>
+
+          <div class="plan card reveal" aria-label="plus plan" data-tilt>
+            <div class="chip mono">plus</div>
+            <div class="price" data-price="4">$4<span class="muted">/mo</span></div>
+            <ul>
+              <li><span class="check">✓</span> advanced filters</li>
+              <li><span class="check">✓</span> collections & saved</li>
+              <li><span class="check">✓</span> custom themes</li>
+            </ul>
+            <a class="btn ring mono" href="/pricing.html#plus">try plus</a>
+          </div>
+
+          <div class="plan card reveal" aria-label="teams plan" data-tilt>
+            <div class="chip mono">teams</div>
+            <div class="price" data-price="12">$12<span class="muted">/mo</span></div>
+            <ul>
+              <li><span class="check">✓</span> private spaces</li>
+              <li><span class="check">✓</span> roles & moderation</li>
+              <li><span class="check">✓</span> priority support</li>
+            </ul>
+            <a class="btn ring mono" href="/contact.html">contact us</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Principles -->
+    <section aria-label="principles">
+      <div class="container grid grid-3">
+        <article class="feature card reveal" data-tilt>
+          <div class="icon" aria-hidden="true">🧭</div>
+          <h3>clear purpose</h3>
+          <p class="muted">eepy is for connection, not addiction. we design for less noise and more meaning.</p>
+        </article>
+        <article class="feature card reveal" data-tilt>
+          <div class="icon" aria-hidden="true">🧩</div>
+          <h3>modular</h3>
+          <p class="muted">features come as focused modules. turn things on and off to suit your space.</p>
+        </article>
+        <article class="feature card reveal" data-tilt>
+          <div class="icon" aria-hidden="true">♿️</div>
+          <h3>accessible</h3>
+          <p class="muted">keyboard‑friendly, screen‑reader ready, and high‑contrast by default.</p>
         </article>
       </div>
     </section>
 
-    <!-- Newsletter / Updates -->
-    <section class="section" aria-label="Novità e aggiornamenti">
-      <div class="card reveal padded">
-        <h3>rimani aggiornato</h3>
-        <p class="mt-1">iscriviti per ricevere novità, changelog e inviti alle beta.</p>
-        <form class="row mt-2" action="https://eepy.app/subscribe" method="post" novalidate>
-          <label class="sr-only" for="email">email</label>
-          <input type="email" id="email" name="email" placeholder="la tua email" required inputmode="email" autocomplete="email" />
-          <input type="text" name="company" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;">
-          <button class="btn primary" type="submit">iscriviti</button>
-        </form>
+    <!-- FAQ -->
+    <section id="faq" aria-label="faq">
+      <div class="container grid grid-2">
+        <details class="faq reveal">
+          <summary>
+            <span class="caret">›</span>
+            <span class="q">how do i join?</span>
+          </summary>
+          <div class="a">tap “get started” to create an account. we support sign‑in with email to keep it simple.</div>
+        </details>
+
+        <details class="faq reveal">
+          <summary>
+            <span class="caret">›</span>
+            <span class="q">do you show ads?</span>
+          </summary>
+          <div class="a">no. eepy is funded by optional subscriptions. your attention isn’t for sale.</div>
+        </details>
+
+        <details class="faq reveal">
+          <summary>
+            <span class="caret">›</span>
+            <span class="q">what about privacy?</span>
+          </summary>
+          <div class="a">eepy uses minimal data. you can control activity status, content warnings, and more.</div>
+        </details>
+
+        <details class="faq reveal">
+          <summary>
+            <span class="caret">›</span>
+            <span class="q">is there dark mode?</span>
+          </summary>
+          <div class="a">yes—eepy respects your system setting and uses accessible contrast in both modes.</div>
+        </details>
+
+        <details class="faq reveal">
+          <summary>
+            <span class="caret">›</span>
+            <span class="q">can i export my data?</span>
+          </summary>
+          <div class="a">yes—export your posts and media anytime, or delete your account with a single click.</div>
+        </details>
+
+        <details class="faq reveal">
+          <summary>
+            <span class="caret">›</span>
+            <span class="q">do you support content warnings?</span>
+          </summary>
+          <div class="a">absolutely. add a short summary to hide sensitive content behind a tap.</div>
+        </details>
       </div>
     </section>
 
-    <!-- Final CTA -->
-    <section class="section center" aria-label="Scarica o apri">
-      <div class="stack reveal">
-        <h2 class="headline">pronto quando lo sei tu</h2>
-        <p class="subhead">apri l’app, respira, condividi con chi conta.</p>
-        <div class="cta" role="group" aria-label="Azioni finali">
-          <button class="btn primary" id="btnGetApp3" type="button">scarica per iOS</button>
-          <button class="btn ghost" id="btnOpenWeb2" type="button">apri sul web</button>
+    <!-- Changelog preview -->
+    <section aria-label="what's new">
+      <div class="container grid">
+        <div class="card inset reveal">
+          <div class="section-head" style="margin-bottom:8px;">
+            <div class="kicker mono">what’s new</div>
+            <h2 class="section-title">changelog</h2>
+            <p class="section-sub">we ship small, thoughtful updates often.</p>
+          </div>
+          <div class="timeline">
+            <div class="event">
+              <div class="mono">nov 2025</div>
+              <div class="muted">end‑to‑end encrypted DMs, improved composer, and accessibility fixes.</div>
+            </div>
+            <div class="event">
+              <div class="mono">oct 2025</div>
+              <div class="muted">custom themes (plus), smarter filters, and faster load times.</div>
+            </div>
+            <div class="event">
+              <div class="mono">sep 2025</div>
+              <div class="muted">new onboarding, private spaces for teams, and better moderation tools.</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;">
+            <a class="btn ring mono" href="/changelog.html">see full changelog</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section aria-label="call to action">
+      <div class="container">
+        <div class="card inset-lg reveal" data-tilt>
+          <div style="display:grid; gap:10px; align-items:center; grid-template-columns: 1fr auto;">
+            <div>
+              <div class="kicker mono">ready?</div>
+              <h3 style="margin:6px 0 4px; font-size:22px; letter-spacing:-0.02em;">start your calmer feed today</h3>
+              <p class="muted" style="margin:0;">sign in and share your first post in under a minute.</p>
+            </div>
+            <a class="btn btn-primary ring mono" href="/app"><span class="tilt-raise">open eepy</span></a>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer role="contentinfo">
-    <div class="foot-wrap">
-      <span>© <span id="year"></span> eepy</span>
-      <span class="footer-links">
-        <a href="/privacy">privacy</a>
-        <span aria-hidden="true">·</span>
-        <a href="/terms">termini</a>
-        <span aria-hidden="true">·</span>
-        <a href="mailto:hello@eepy.app">contatti</a>
-        <span aria-hidden="true">·</span>
-        <a href="/press">press kit</a>
-      </span>
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container-wide" style="display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span class="logo" aria-hidden="true" style="width:22px; height:22px; border-radius:6px;">e</span>
+        <span class="mono">eepy</span>
+        <span class="sep">•</span>
+        <span>© <span id="year"></span></span>
+      </div>
+
+      <form class="newsletter" id="newsletter" aria-label="newsletter signup" autocomplete="on" novalidate>
+        <input class="field ring" type="email" name="email" id="email" placeholder="email for updates" inputmode="email" aria-label="email" required>
+        <button class="btn btn-primary ring mono" type="submit">subscribe</button>
+        <div id="nl-msg" class="mono" aria-live="polite" style="grid-column: 1 / -1; font-size:12px; color: var(--muted);"></div>
+      </form>
+
+      <nav class="links" aria-label="secondary">
+        <a class="mono ring" href="/features.html">features</a>
+        <a class="mono ring" href="/pricing.html">pricing</a>
+        <a class="mono ring" href="/privacy.html">privacy</a>
+        <a class="mono ring" href="/terms.html">terms</a>
+        <a class="mono ring" href="/status">status</a>
+        <a class="mono ring" href="/contact.html">contact</a>
+      </nav>
     </div>
   </footer>
 
-  <!-- Back to top -->
-  <button class="back-to-top" id="backToTop" type="button" aria-label="Torna su" hidden>↑</button>
+  <button class="to-top ring" id="toTop" aria-label="back to top" title="back to top">↑</button>
 
-  <!-- Toast (live region near end of body for a11y) -->
-  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">copiato negli appunti</div>
-
-  <!-- Demo modal -->
-  <div class="modal" id="dataModal" aria-hidden="true">
-    <div class="panel" role="dialog" aria-labelledby="dataModalTitle" aria-describedby="dataModalDesc">
-      <h3 id="dataModalTitle">esporta dati (demo)</h3>
-      <p id="dataModalDesc" class="mt-1">nell’app iOS puoi esportare i tuoi dati con filtri e stime. questa è una demo del pannello.</p>
-      <div class="row mt-2">
-        <button class="btn" type="button" id="closeDataModal">chiudi</button>
-        <button class="btn primary" type="button" id="goToAppFromModal">apri l’app</button>
-      </div>
-    </div>
+  <!-- Sticky CTA -->
+  <div class="sticky-cta" id="stickyCta" aria-live="polite" aria-hidden="true">
+    <div class="mono">ready when you are — a calmer feed is one tap away</div>
+    <a class="btn btn-primary ring mono" href="/app">open eepy</a>
   </div>
 
-  <script src="script.js" defer></script>
   <script>
-    // Minimal inline glue that complements script.js without duplicating behaviors.
+    'use strict';
 
-    // External open helpers
-    const openWeb = () => location.assign('/app');
-    const openStore = () => open('https://apps.apple.com/', '_blank', 'noopener');
+    // Flags
+    const prefersReducedData = matchMedia('(prefers-reduced-data: reduce)').matches;
+    const prefersReducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const supportsFinePointer = matchMedia('(pointer: fine)').matches;
 
-    // Extra CTAs
-    document.getElementById('btnGetApp3')?.addEventListener('click', openStore);
-    document.getElementById('btnOpenWeb2')?.addEventListener('click', openWeb);
+    // Reduce motion class
+    function syncReduceMotionClass() {
+      document.documentElement.classList.toggle('reduce-motion', prefersReducedMotion.matches);
+    }
+    prefersReducedMotion.addEventListener?.('change', syncReduceMotionClass);
+    syncReduceMotionClass();
 
-    // Modal open/close with Esc and focus restore
-    const dataModal = document.getElementById('dataModal');
-    const openBtn = document.getElementById('btnDataModal');
-    const closeBtn = document.getElementById('closeDataModal');
-    const goBtn = document.getElementById('goToAppFromModal');
-    let lastFocused = null;
+    // Year
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    const setModalOpen = (open) => {
-      if (!dataModal) return;
-      dataModal.classList.toggle('is-open', open);
-      dataModal.setAttribute('aria-hidden', String(!open));
-      document.body.classList.toggle('no-scroll', open);
-      if (open) {
-        lastFocused = document.activeElement;
-        const focusable = dataModal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        focusable?.focus({ preventScroll: true });
-      } else {
-        lastFocused?.focus?.();
-      }
-    };
+    // Mobile menu + focus trap
+    const menuToggle = document.getElementById('menuToggle');
+    const mobilePanel = document.getElementById('mobilePanel');
+    const body = document.body;
+    let menuOpen = false;
+    let lastFocus = null;
 
-    const trapFocus = (e) => {
-      if (!dataModal?.classList.contains('is-open')) return;
-      const focusables = dataModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-      const list = Array.from(focusables);
-      if (!list.length) return;
-      const first = list[0];
-      const last = list[list.length - 1];
-      if (e.key === 'Tab') {
+    function focusables(root) {
+      return root.querySelectorAll('a[href], button, input, summary, [tabindex]:not([tabindex="-1"])');
+    }
+    function trapFocus(container, on) {
+      if (!container) return;
+      const nodes = focusables(container);
+      function keyHandler(e) {
+        if (e.key !== 'Tab') return;
+        const first = nodes[0];
+        const last = nodes[nodes.length - 1];
+        if (!first || !last) return;
         if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-      } else if (e.key === 'Escape') {
-        setModalOpen(false);
       }
-    };
+      if (on) container.addEventListener('keydown', keyHandler);
+      else container.removeEventListener('keydown', keyHandler);
+    }
 
-    const openModal = () => setModalOpen(true);
-    const closeModal = () => setModalOpen(false);
+    function setMenu(open) {
+      menuOpen = open;
+      menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      mobilePanel.classList.toggle('on', open);
+      body.classList.toggle('menu-open', open);
+      if (open) { lastFocus = document.activeElement; trapFocus(mobilePanel, true); mobilePanel.querySelector('a,button')?.focus(); }
+      else { trapFocus(mobilePanel, false); lastFocus?.focus(); }
+    }
 
-    openBtn?.addEventListener('click', openModal);
-    closeBtn?.addEventListener('click', closeModal);
-    goBtn?.addEventListener('click', () => { closeModal(); openWeb(); });
-    dataModal?.addEventListener('click', (e) => { if (e.target === dataModal) closeModal(); });
-    window.addEventListener('keydown', trapFocus);
+    if (menuToggle && mobilePanel) {
+      menuToggle.addEventListener('click', () => setMenu(!menuOpen));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menuOpen) setMenu(false);
+      });
+      mobilePanel.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (a) setMenu(false);
+      });
+    }
 
-    // Scroll progress bar wiring (#routeProgress)
-    const routeProgress = document.getElementById('routeProgress');
-    const onScrollProgress = () => {
-      if (!routeProgress) return;
-      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      const height = document.documentElement.scrollHeight - window.innerHeight;
-      const pct = height > 0 ? (scrollTop / height) * 100 : 0;
-      routeProgress.style.setProperty('--progress', pct.toFixed(2) + '%');
-      routeProgress.style.transform = `scaleX(${Math.min(1, Math.max(0, pct/100))})`;
-    };
-    onScrollProgress();
-    window.addEventListener('scroll', onScrollProgress, { passive: true });
+    // Reveal on view + stats count-up
+    function animateCount(el) {
+      const target = parseFloat(el.dataset.count || '0');
+      const isFloat = !Number.isInteger(target);
+      const duration = 900;
+      const start = performance.now();
+      const from = 0;
+      function tick(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const val = from + (target - from) * eased;
+        el.textContent = isFloat ? val.toFixed(1) : Math.round(val);
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
 
-    // Back-to-top button
-    const backToTop = document.getElementById('backToTop');
-    const toggleTop = () => {
-      if (!backToTop) return;
-      const show = window.scrollY > 600;
-      backToTop.hidden = !show;
-    };
-    toggleTop();
-    window.addEventListener('scroll', toggleTop, { passive: true });
-    backToTop?.addEventListener('click', () => {
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
-      document.getElementById('main')?.focus({ preventScroll: true });
+    const revealObserver = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('on');
+          if (entry.target.hasAttribute('data-count')) animateCount(entry.target);
+          revealObserver.unobserve(entry.target);
+        }
+      }
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 }) : null;
+
+    if (revealObserver) document.querySelectorAll('.reveal, [data-count]').forEach(el => revealObserver.observe(el));
+    else document.querySelectorAll('.reveal').forEach(el => el.classList.add('on'));
+
+    // Minimal feed mock with gentle motion
+    const posts = [
+      { handle: '@luna', text: 'morning sunlight + quiet coffee ☕️', liked: true },
+      { handle: '@kai', text: 'shipping small updates today. feeling good.', liked: false },
+      { handle: '@mira', text: 'a walk. a pause. less noise.', liked: false },
+      { handle: '@art', text: 'new sketch up on my profile 🎨', liked: true }
+    ];
+    const feed = document.getElementById('feed');
+    const feed2 = document.getElementById('feed2');
+
+    function makePost(p) {
+      const card = document.createElement('div');
+      card.className = 'post';
+      card.innerHTML = `
+        <div class="avatar" aria-hidden="true"></div>
+        <div>
+          <div class="handle">${p.handle}</div>
+          <div class="content">${p.text}</div>
+          <div class="toolbar" role="group" aria-label="post actions">
+            <button class="tool like ${p.liked ? 'active' : ''}" aria-pressed="${p.liked}" title="like">
+              <span class="dot" aria-hidden="true"></span><span class="mono">like</span>
+            </button>
+            <button class="tool" title="reply"><span class="dot" aria-hidden="true"></span><span class="mono">reply</span></button>
+            <button class="tool" title="share"><span class="dot" aria-hidden="true"></span><span class="mono">share</span></button>
+          </div>
+        </div>
+      `;
+      const like = card.querySelector('.like');
+      if (like) {
+        like.addEventListener('click', () => {
+          const on = like.classList.toggle('active');
+          like.setAttribute('aria-pressed', on ? 'true' : 'false');
+          card.style.transform = 'translateY(-2px) scale(1.01)';
+          setTimeout(() => card.style.transform = '', 160);
+        }, { passive: true });
+      }
+      return card;
+    }
+
+    function seedFeed(target) {
+      if (!target || prefersReducedData) return;
+      posts.forEach((p, i) => {
+        const el = makePost(p);
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(6px)';
+        target.appendChild(el);
+        setTimeout(() => {
+          el.style.transition = 'opacity .45s var(--ease-spring), transform .45s var(--ease-spring)';
+          el.style.opacity = 1;
+          el.style.transform = 'none';
+        }, 120 + i * 120);
+      });
+    }
+    seedFeed(feed);
+    seedFeed(feed2);
+
+    // Subtle auto-cycle: replace the first post periodically (respect data/motion)
+    let cycleIdx = 0;
+    function cycleFeed() {
+      if (prefersReducedData || document.hidden) return;
+      const container = Math.random() > 0.5 ? feed : feed2;
+      if (!container) return;
+      const first = container.querySelector('.post');
+      if (!first) return;
+      const p = posts[cycleIdx++ % posts.length];
+      const el = makePost(p);
+      el.style.opacity = 0;
+      el.style.transform = 'translateY(-6px)';
+      container.insertBefore(el, container.firstChild);
+      setTimeout(() => {
+        el.style.transition = 'opacity .45s var(--ease-spring), transform .45s var(--ease-spring)';
+        el.style.opacity = 1;
+        el.style.transform = 'none';
+      }, 40);
+      // remove the last to keep size small
+      const all = container.querySelectorAll('.post');
+      if (all.length > 5) {
+        const last = all[all.length - 1];
+        last.style.opacity = 0;
+        last.style.transform = 'translateY(6px)';
+        setTimeout(() => last.remove(), 260);
+      }
+    }
+    const cycleTimer = setInterval(cycleFeed, 4500);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) cycleFeed(); });
+
+    // Active section highlighting & compact nav + progress + toTop + sticky CTA
+    const nav = document.getElementById('nav');
+    const navLinks = document.querySelectorAll('[data-nav]');
+    const progress = document.getElementById('progress');
+    const toTop = document.getElementById('toTop');
+    const stickyCta = document.getElementById('stickyCta');
+
+    const sectionIds = ['features','how','privacy','pricing','faq'];
+    const sectionElements = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+    const sectionObserver = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+      let current = null;
+      for (const e of entries) {
+        if (e.isIntersecting) current = e.target.id;
+      }
+      if (current) navLinks.forEach(a => a.setAttribute('aria-current', a.dataset.nav === current ? 'page' : 'false'));
+    }, { rootMargin: '-40% 0px -40% 0px', threshold: 0.01 }) : null;
+
+    if (sectionObserver) sectionElements.forEach(el => sectionObserver.observe(el));
+
+    function onScroll() {
+      const y = window.scrollY || document.documentElement.scrollTop;
+      if (nav) nav.classList.toggle('compact', y > 12);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? (y / max) * 100 : 0;
+      if (progress) progress.style.width = pct.toFixed(2) + '%';
+      if (toTop) toTop.classList.toggle('on', y > 640);
+      if (stickyCta) stickyCta.classList.toggle('on', y > 1200);
+      if (stickyCta) stickyCta.setAttribute('aria-hidden', y > 1200 ? 'false' : 'true');
+    }
+    document.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    toTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' }));
+
+    // Newsletter (local-only validation)
+    const form = document.getElementById('newsletter');
+    const email = document.getElementById('email');
+    const msg = document.getElementById('nl-msg');
+    if (form && email && msg) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const value = email.value.trim();
+        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        if (!ok) {
+          msg.textContent = 'please enter a valid email.';
+          msg.style.color = 'var(--danger)';
+          email.focus();
+          return;
+        }
+        msg.textContent = 'thanks — we’ll be in touch soon.';
+        msg.style.color = 'var(--success)';
+        email.value = '';
+      });
+    }
+
+    // FAQ caret rotation
+    document.querySelectorAll('details.faq').forEach(d => {
+      const caret = d.querySelector('.caret');
+      const sync = () => caret && (caret.style.transform = d.open ? 'rotate(90deg)' : 'rotate(0deg)');
+      d.addEventListener('toggle', sync);
+      sync();
     });
 
-    // Skip link: ensure focus lands on main
-    document.querySelector('.skip-link')?.addEventListener('click', () => {
-      setTimeout(() => document.getElementById('main')?.focus({ preventScroll: true }), 0);
+    // Tilt microinteraction (pointer devices only)
+    function addTilt(el) {
+      if (!supportsFinePointer || prefersReducedMotion.matches) return;
+      const rect = () => el.getBoundingClientRect();
+      let frame;
+      function onMove(e) {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          const r = rect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          const rx = (-y * 6).toFixed(2);
+          const ry = (x * 6).toFixed(2);
+          el.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
+        });
+      }
+      function reset() { el.style.transform = ''; }
+      el.addEventListener('pointermove', onMove);
+      el.addEventListener('pointerleave', reset);
+    }
+    document.querySelectorAll('[data-tilt]').forEach(addTilt);
+
+    // Feature switcher (tabs) + panes content
+    const switcher = document.querySelector('.switcher');
+    const panes = {
+      feed: document.querySelector('[data-pane="feed"]'),
+      compose: document.querySelector('[data-pane="compose"]'),
+      dms: document.querySelector('[data-pane="dms"]')
+    };
+    // Seed panes with simple content blocks (kept minimal)
+    if (panes.feed) panes.feed.innerHTML = '<div class="badge mono"><span class="dot"></span>simple chronological feed</div>';
+    if (panes.compose) panes.compose.innerHTML = '<div class="badge mono"><span class="dot"></span>distraction‑free composer</div>';
+    if (panes.dms) panes.dms.innerHTML = '<div class="badge mono"><span class="dot"></span>end‑to‑end encrypted DMs</div>';
+
+    function setPane(name) {
+      Object.keys(panes).forEach(k => {
+        const on = k === name;
+        panes[k]?.classList.toggle('on', on);
+        panes[k]?.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      switcher?.querySelectorAll('[role="tab"]').forEach(tab => {
+        tab.setAttribute('aria-selected', tab.dataset.switch === name ? 'true' : 'false');
+      });
+    }
+    setPane('feed');
+
+    switcher?.addEventListener('click', (e) => {
+      const btn = e.target.closest('[role="tab"]');
+      if (!btn) return;
+      setPane(btn.dataset.switch);
+    });
+    // Keyboard support
+    switcher?.addEventListener('keydown', (e) => {
+      const tabs = Array.from(switcher.querySelectorAll('[role="tab"]'));
+      const idx = tabs.indexOf(document.activeElement);
+      if (idx < 0) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const next = (idx + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        tabs[next].focus();
+        setPane(tabs[next].dataset.switch);
+      }
     });
 
-    // Optional: set aria-current on tabs based on hash on load
-    window.addEventListener('load', () => {
-      const hash = location.hash;
-      if (!hash) return;
-      document.querySelectorAll('.tabs .tab').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === hash ? 'true' : 'false'));
+    // Use cases tab switcher
+    const useSwitch = document.getElementById('useSwitch');
+    function setUsePane(key) {
+      document.querySelectorAll('[data-pane-uc]').forEach(el => {
+        const on = el.getAttribute('data-pane-uc') === key;
+        el.hidden = !on;
+      });
+      useSwitch?.querySelectorAll('[role="tab"]').forEach(t => t.setAttribute('aria-selected', t.dataset.switch === key ? 'true' : 'false'));
+    }
+    setUsePane('solo');
+    useSwitch?.addEventListener('click', (e) => {
+      const btn = e.target.closest('[role="tab"]');
+      if (!btn) return;
+      setUsePane(btn.dataset.switch);
+    });
+    useSwitch?.addEventListener('keydown', (e) => {
+      const tabs = Array.from(useSwitch.querySelectorAll('[role="tab"]'));
+      const idx = tabs.indexOf(document.activeElement);
+      if (idx < 0) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const next = (idx + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        tabs[next].focus();
+        setUsePane(tabs[next].dataset.switch);
+      }
+    });
+
+    // Pricing billing switcher
+    const billingSwitch = document.getElementById('billingSwitch');
+    function applyBilling(mode) {
+      document.querySelectorAll('[data-price]').forEach(el => {
+        const base = parseFloat(el.getAttribute('data-price') || '0');
+        if (base === 0) { el.innerHTML = '$0'; return; }
+        if (mode === 'yearly') {
+          const yearly = Math.round(base * 12 * 0.8);
+          el.innerHTML = `$${yearly}<span class="muted">/yr</span>`;
+        } else {
+          el.innerHTML = `$${base}<span class="muted">/mo</span>`;
+        }
+      });
+      billingSwitch?.querySelectorAll('[role="tab"]').forEach(t => t.setAttribute('aria-selected', t.dataset.billing === mode ? 'true' : 'false'));
+    }
+    applyBilling('monthly');
+    billingSwitch?.addEventListener('click', (e) => {
+      const btn = e.target.closest('[role="tab"]');
+      if (!btn) return;
+      applyBilling(btn.dataset.billing);
+    });
+    billingSwitch?.addEventListener('keydown', (e) => {
+      const tabs = Array.from(billingSwitch.querySelectorAll('[role="tab"]'));
+      const idx = tabs.indexOf(document.activeElement);
+      if (idx < 0) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const next = (idx + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        tabs[next].focus();
+        applyBilling(tabs[next].dataset.billing);
+      }
+    });
+
+    // Carousel auto-advance (gentle)
+    const carousel = document.getElementById('carousel');
+    if (carousel && !prefersReducedData) {
+      let autoScroll;
+      function startAuto() {
+        autoScroll = setInterval(() => {
+          if (document.hidden) return;
+          const next = carousel.scrollLeft + carousel.clientWidth;
+          const max = carousel.scrollWidth - carousel.clientWidth;
+          carousel.scrollTo({ left: next > max ? 0 : next, behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' });
+        }, 5000);
+      }
+      function stopAuto() { clearInterval(autoScroll); }
+      carousel.addEventListener('pointerenter', stopAuto);
+      carousel.addEventListener('pointerleave', startAuto);
+      startAuto();
+    }
+
+    // Keyboard shortcuts: g then f to go to features
+    let keyBuffer = '';
+    document.addEventListener('keydown', (e) => {
+      keyBuffer = (keyBuffer + e.key.toLowerCase()).slice(-2);
+      if (keyBuffer === 'gf') {
+        document.getElementById('features')?.scrollIntoView({ behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' });
+      }
     });
   </script>
 </body>
