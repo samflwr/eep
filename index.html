@@ -2,41 +2,266 @@
 <html lang="it">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>r u eepy?</title>
-  <style>
-    /* Minimal mobile-first page */
-    :root{color-scheme: light dark}
-    html,body{height:100%;margin:0}
-    body{
-      display:grid;
-      place-items:center;
-      background-color:white;
-      color:#000;
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
-      font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      padding:env(safe-area-inset);
-    }
+  <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <title>eepy — be softly social</title>
 
-    /* Big, clean, centered text — all lowercase as requested */
-    .phrase{
-      font-weight:600;
-      line-height:1;
-      margin:0;
-      text-transform:lowercase;
-      /* responsive size: adapts from small phones to larger screens */
-      font-size:clamp(28px, 1vw, 72px);
-      letter-spacing:0.02em;
-    }
+  <!-- SEO basics -->
+  <meta name="description" content="eepy è un social morbido: condividi momenti veri con le persone che ami. Niente rumore, solo calma, cura e connessioni che contano. Private by default." />
+  <link rel="canonical" href="https://eepy.app/">
 
-    /* Dark-mode respectful (keeps it minimal) */
-    @media (prefers-color-scheme: dark){
-      body{background-color:#000;color:#fff}
-    }
-  </style>
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="eepy — be softly social">
+  <meta property="og:description" content="condividi momenti veri con le persone che ami. niente rumore, solo calma, cura e connessioni che contano.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://eepy.app/">
+  <meta property="og:image" content="https://eepy.app/images/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="eepy — be softly social">
+  <meta name="twitter:description" content="condividi momenti veri con le persone che ami. niente rumore, solo calma, cura e connessioni che contano.">
+  <meta name="twitter:image" content="https://eepy.app/images/og.jpg">
+
+  <!-- PWA / Apple -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="eepy">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png" />
+  <link rel="mask-icon" href="/icons/maskable-icon-512.png" color="#0a84ff">
+
+  <!-- Preload/Preconnect hooks (optional) -->
+  <!-- <link rel="preconnect" href="https://your-cdn.example" crossorigin> -->
+  <!-- <link rel="preload" as="image" href="/images/app-preview-1.jpg" imagesizes="(max-width: 900px) 100vw, 900px" /> -->
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <p class="phrase">r u eepy lily?</p>
+  <a class="skip-link" href="#main">salta al contenuto</a>
+  <div class="backdrop" aria-hidden="true"></div>
+
+  <header role="banner" class="site-header" data-elevate>
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="/" aria-label="eepy home">
+        <span class="logo" aria-hidden="true"></span>
+        <span class="brand-name">eepy</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryTabs">
+        <span class="sr-only">apri il menu</span>
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
+
+      <div class="tabs" id="primaryTabs" role="navigation" aria-label="Sections">
+        <a href="#features" class="tab" data-spy>funzioni</a>
+        <a href="#how" class="tab" data-spy>come funziona</a>
+        <a href="#privacy" class="tab" data-spy>privacy</a>
+        <a href="#faq" class="tab" data-spy>faq</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn ghost" id="btnSignIn" type="button">accedi</button>
+        <button class="btn primary" id="btnGetApp" type="button">scarica l’app</button>
+      </div>
+
+      <!-- Optional route/loading bar -->
+      <div class="progress" id="routeProgress" aria-hidden="true"></div>
+    </nav>
+  </header>
+
+  <main id="main" role="main">
+    <section class="section hero" aria-label="Intro">
+      <div class="orb" aria-hidden="true"></div>
+      <span class="badge" aria-label="private by default">private by default</span>
+      <h1 class="headline">r u eepy?</h1>
+      <p class="subhead">un social morbido. condividi momenti veri con le persone che ami. niente rumore, solo calma, cura e connessioni che contano.</p>
+      <div class="cta">
+        <button class="btn primary" id="btnJoin" type="button">inizia ora</button>
+        <button class="btn" id="btnLearn" type="button" aria-describedby="micro">scopri</button>
+      </div>
+      <p id="micro" class="subhead microcopy">nessun algoritmo aggressivo. privacy prima di tutto.</p>
+
+      <div class="hero-foot">
+        <button class="pill" id="pillAppStore" type="button" aria-label="Scarica l’app">
+          <span class="pill-dot" aria-hidden="true"></span>
+          scarica per iOS
+        </button>
+        <button class="pill ghost" id="pillWeb" type="button" aria-label="Apri sul web">
+          <span class="pill-dot" aria-hidden="true"></span>
+          apri sul web
+        </button>
+      </div>
+    </section>
+
+    <section id="features" class="section" aria-label="Funzioni">
+      <div class="section-head">
+        <h2 class="eyebrow">funzioni</h2>
+        <p class="section-sub">costruito con cura, per connessioni piccole ma significative.</p>
+      </div>
+
+      <div class="features grid">
+        <article class="card span-6 reveal" tabindex="0">
+          <h3>micro‑interazioni</h3>
+          <p>tocchi morbidi, feedback tattili e animazioni sottili che fanno sentire l’app viva senza distrarre.</p>
+          <div class="chip">haptics soft · springy</div>
+        </article>
+        <article class="card span-6 reveal" tabindex="0">
+          <h3>cerchie intime</h3>
+          <p>condividi con le persone che scegli. nessuna pressione, solo spazio sicuro.</p>
+          <div class="chip">close friends · inviti</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="how" class="section" aria-label="Come funziona">
+      <div class="section-head">
+        <h2 class="eyebrow">come funziona</h2>
+        <p class="section-sub">tre passi semplici per sentirti a casa.</p>
+      </div>
+
+      <div class="how">
+        <div class="how-step reveal">
+          <span class="kicker">01</span>
+          <h4>crea il tuo spazio</h4>
+          <p>scegli chi può vederti. profili privati per impostazione predefinita, cerchie su invito.</p>
+        </div>
+        <div class="how-step reveal">
+          <span class="kicker">02</span>
+          <h4>condividi momenti veri</h4>
+          <p>frammenti, audio, foto. naturale, senza sovra‑produzione. niente filtri invadenti.</p>
+        </div>
+        <div class="how-step reveal">
+          <span class="kicker">03</span>
+          <h4>connettiti con calma</h4>
+          <p>feedback morbidi, conversazioni intime, senza inseguire numeri. solo persone.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section preview" aria-label="Anteprima app">
+      <div class="preview-media reveal" aria-label="screenshot dell’app">
+        <img class="blur-up" src="/images/app-preview-1.jpg" alt="schermata feed eepy" loading="lazy" decoding="async" />
+      </div>
+      <div class="preview-copy">
+        <h2 class="headline preview-title">pensato per i tuoi ritmi</h2>
+        <p class="subhead">interfaccia morbida, monospazio per i dettagli, e scelte chiare. la calma è una feature.</p>
+        <ul class="bullets">
+          <li><span class="dot" aria-hidden="true"></span> interazioni tattili e animazioni con molla</li>
+          <li><span class="dot" aria-hidden="true"></span> modalità scura nativa e rispetto per accessibilità</li>
+          <li><span class="dot" aria-hidden="true"></span> condivisione selettiva e cerchie intime</li>
+        </ul>
+        <div class="cta left">
+          <button class="btn primary" id="btnGetApp2" type="button">scarica l’app</button>
+          <button class="btn" id="btnOpenWeb" type="button">apri sul web</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacy" class="section" aria-label="Privacy">
+      <div class="card reveal padded">
+        <h3>privacy, per davvero</h3>
+        <p class="mt-1">raccogliamo il minimo indispensabile. controlli chiari, esportazione dati, e impostazioni trasparenti.</p>
+        <div class="cta mt-2">
+          <a class="btn" href="/privacy">leggi l’informativa</a>
+          <a class="btn ghost" href="/terms">termini</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section" aria-label="Domande frequenti">
+      <div class="section-head">
+        <h2 class="eyebrow">faq</h2>
+      </div>
+      <div class="faq">
+        <details class="reveal">
+          <summary>eepy usa un feed algoritmico?</summary>
+          <p>no. priorità alle persone che scegli, non a quello che “performano”.</p>
+        </details>
+        <details class="reveal">
+          <summary>posso esportare i miei dati?</summary>
+          <p>sì. l’app consente l’esportazione dei dati e la cancellazione dell’account.</p>
+        </details>
+        <details class="reveal">
+          <summary>è disponibile su iOS e web?</summary>
+          <p>sì. app nativa per iOS e versione web minimale, con sincronizzazione.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Social preview (modular demo) -->
+    <!--<section class="section" aria-label="Anteprima social">
+      <div class="feed">
+        <div class="composer reveal" role="form" aria-label="Crea post">
+          <div class="composer-row">
+            <div class="avatar" aria-hidden="true"></div>
+            <textarea placeholder="Cosa stai pensando?" aria-label="Testo del post"></textarea>
+          </div>
+          <div class="composer-actions">
+            <div class="composer-tools">
+              <button class="icon-btn tooltip" data-tip="Aggiungi foto" aria-label="Aggiungi foto">📷</button>
+              <button class="icon-btn tooltip" data-tip="Aggiungi audio" aria-label="Aggiungi audio">🎙️</button>
+              <button class="icon-btn tooltip" data-tip="Aggiungi luogo" aria-label="Aggiungi luogo">📍</button>
+            </div>
+            <button class="btn primary">pubblica</button>
+          </div>
+        </div>
+
+        <article class="post reveal" tabindex="0">
+          <header class="post-head">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="post-meta">
+              <span class="post-author">sofia</span>
+              <span class="post-handle">@so</span>
+              <span class="post-time" aria-label="2 ore fa">· 2h</span>
+            </div>
+            <button class="icon-btn tooltip" data-tip="Altro" aria-label="Altro">•••</button>
+          </header>
+          <div class="post-content">
+            oggi sole morbido, caffè lento, playlist piano. tutto bene.
+          </div>
+          <div class="post-media">
+            <img src="/images/app-preview-1.jpg" alt="foto del momento" loading="lazy" decoding="async" />
+          </div>
+          <footer class="reactions" aria-label="Reazioni">
+            <button class="react-btn" aria-pressed="false">💗 <span class="react-count">24</span></button>
+            <button class="react-btn" aria-pressed="false">💬 <span class="react-count">6</span></button>
+            <button class="react-btn" aria-pressed="false">↗︎ <span class="react-count">3</span></button>
+            <div class="avatars" aria-label="Piaciuto da">
+              <span class="avatar" aria-hidden="true"></span>
+              <span class="avatar" aria-hidden="true"></span>
+              <span class="avatar" aria-hidden="true"></span>
+            </div>
+          </footer>
+
+          <div class="comments" aria-label="Commenti">
+            <div class="comment">
+              <div class="avatar" aria-hidden="true"></div>
+              <div class="bubble">anch’io oggi mood piano. ☁️</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>-->
+  </main>
+
+  <footer role="contentinfo">
+    <div class="foot-wrap">
+      <span>© <span id="year"></span> eepy</span>
+      <span class="footer-links">
+        <a href="/privacy">privacy</a>
+        <span aria-hidden="true">·</span>
+        <a href="/terms">termini</a>
+        <span aria-hidden="true">·</span>
+        <a href="mailto:hello@eepy.app">contatti</a>
+      </span>
+    </div>
+  </footer>
+
+  <!-- Toast (hidden by default) -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">copiato negli appunti</div>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
