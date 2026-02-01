@@ -1,217 +1,159 @@
-//
-//  script.js
-//  eepy landing
-//
-//  Consolidated, accessible, and bug-free interactions.
-//
+const yesBtn = document.getElementById('yes-btn');
+const noBtn = document.getElementById('no-btn');
+const questionCard = document.getElementById('card-question');
+const successCard = document.getElementById('card-success');
+const angryCat = document.getElementById('angry-cat');
 
-(function () {
-  const $ = (sel, ctx = document) => ctx.querySelector(sel);
-  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+const angryGifs = [
+    "https://i.pinimg.com/originals/fc/0c/98/fc0c981fe4a4a8796badd15b423414cb.gif",
+    "https://media.tenor.com/6u1cocwwEd4AAAAj/ragey-cat.gif",
+    "https://media1.tenor.com/m/sblBUsSvPRoAAAAd/cat-meme-cat-meme-angry.gif",
+    "https://media.tenor.com/Jz0hI2sWIBIAAAAj/cat-crying-cat-crying-meme.gif",
+    "https://media1.tenor.com/m/qlxw-7nvH_QAAAAd/mad-cat.gif",
+    "https://i.pinimg.com/originals/fc/0c/98/fc0c981fe4a4a8796badd15b423414cb.gif"
+];
 
-  // Configurable routes (placeholders)
-  const ROUTES = {
-    signup: '/signup',
-    login: '/login',
-    app: '/app',
-    web: '/app'
-  };
+const happyGifs = [
+    "https://media1.tenor.com/m/_sTH2Ou_9iIAAAAd/cat-meme-hehehe.gif",
+    "https://media.tenor.com/lOG0hy6GUgEAAAAj/cat.gif",
+    "https://media.tenor.com/NUxKSQ-pzVoAAAAj/interesting.gif"
+];
 
-  // Year
-  const yearEl = $('#year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+const messages = [
+    "LILY????",
+    "ma come?",
+    "EHI",
+    "GRRRRRR",
+    "ti sta scivolando il dito?",
+    "NUGGIE",
+    "mi offendo",
+    "i'm angy",
+    "ti compro il sushi",
+    "neanche per il sushi??",
+    "un burgir?",
+    "guarda com'è bello l'altro",
+    "quello accanto",
+    "quello verde",
+    "ho detto quello verde",
+    "questo è rosso",
+    "ora divento verde",
+    "ti sto avvisando",
+    "ok :3"
+];
 
-  // Sticky header elevation
-  const header = $('.site-header');
-  const elevate = () => {
-    if (!header) return;
-    header.classList.toggle('is-elevated', window.scrollY > 8);
-  };
-  elevate();
-  window.addEventListener('scroll', elevate, { passive: true });
+let messageIndex = 0;
+let currentFontSize = 1.2;
+let catTimeout;
+let isGreen = false;
 
-  // Mobile nav toggle
-  const navToggle = $('#navToggle');
-  const tabsContainer = $('#primaryTabs');
-  if (navToggle && tabsContainer) {
-    navToggle.addEventListener('click', () => {
-      const open = tabsContainer.classList.toggle('is-open');
-      navToggle.setAttribute('aria-expanded', String(open));
+function handleSuccess() {
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
     });
-    // Close on link click
-    $$('.tab', tabsContainer).forEach(link =>
-      link.addEventListener('click', () => {
-        tabsContainer.classList.remove('is-open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      })
-    );
-  }
 
-  // Smooth hash navigation + focus management for in-page tabs
-  $$('.tab').forEach(link => {
-    link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href') || '';
-      if (!href.startsWith('#')) return;
-      const target = $(href);
-      if (!target) return;
-      e.preventDefault();
-      target.scrollIntoView({ behavior: prefersReduced() ? 'auto' : 'smooth', block: 'start' });
-      history.pushState(null, '', href);
-      // Focus for accessibility
-      target.setAttribute('tabindex', '-1');
-      setTimeout(() => target.focus({ preventScroll: true }), 300);
-      setTimeout(() => target.removeAttribute('tabindex'), 1000);
-    });
-  });
+    const randomHappyIndex = Math.floor(Math.random() * happyGifs.length);
+    const successImg = successCard.querySelector('.gif-container img');
+    successImg.src = happyGifs[randomHappyIndex];
 
-  // Scroll spy: keep active tab coherent with CSS (.is-active + aria-current)
-  const spySections = ['features', 'community', 'privacy', 'subscribe', 'tech', 'testimonials', 'pricing', 'faq']
-    .map(id => document.getElementById(id))
-    .filter(Boolean);
-  const spyLinks = new Map(spySections.map(sec => [sec.id, $(`.tab[href="#${sec.id}"]`)]));
-  const updateSpy = () => {
-    let activeId = null;
-    let minDist = Infinity;
-    spySections.forEach(sec => {
-      const rect = sec.getBoundingClientRect();
-      const dist = Math.abs(rect.top - 100);
-      if (rect.top <= 120 && dist < minDist) { activeId = sec.id; minDist = dist; }
-    });
-    spyLinks.forEach((link, id) => {
-      if (!link) return;
-      const isActive = id === activeId;
-      link.classList.toggle('is-active', isActive);
-      link.setAttribute('aria-current', isActive ? 'true' : 'false');
-    });
-  };
-  updateSpy();
-  window.addEventListener('scroll', () => requestAnimationFrame(updateSpy), { passive: true });
+    questionCard.style.display = 'none';
+    successCard.classList.remove('hidden');
 
-  // Reveal on scroll
-  const revealEls = $$('.reveal');
-  if ('IntersectionObserver' in window && revealEls.length) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
-    revealEls.forEach(el => io.observe(el));
-  } else {
-    revealEls.forEach(el => el.classList.add('is-visible'));
-  }
+    if (noBtn) noBtn.remove();
 
-  // Parallax orb (mouse + subtle scroll)
-  const orb = $('.orb');
-  let raf = null;
-  const onMove = (x, y) => {
-    if (!orb) return;
-    if (raf) cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(() => {
-      const fx = (x / window.innerWidth - 0.5) * 16;
-      const fy = (y / window.innerHeight - 0.5) * 12;
-      orb.style.transform = `translate3d(${fx}px, ${fy}px, 0)`;
-      orb.style.opacity = '0.6';
-    });
-  };
-  window.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY), { passive: true });
-  window.addEventListener('scroll', () => {
-    if (!orb) return;
-    const y = window.scrollY;
-    orb.style.transform = `translate3d(0, ${y * 0.02}px, 0)`;
-  }, { passive: true });
-  if (prefersReduced() && orb) {
-    orb.style.transition = 'none';
-  }
+    angryCat.classList.remove('cat-show');
+    if (catTimeout) clearTimeout(catTimeout);
+}
 
-  // Haptics (soft tick where supported)
-  const softTick = () => {
-    try { if ('vibrate' in navigator) navigator.vibrate(8); } catch {}
-  };
-  $$('button, .tab, .card, details summary').forEach(el => {
-    el.addEventListener('pointerdown', softTick, { passive: true });
-  });
+function moveButton(e) {
+    if (isGreen) {
+        handleSuccess();
+        return;
+    }
 
-  // Magnetic buttons (primary/ghost)
-  const magnetics = $$('.btn.primary, .btn.ghost');
-  magnetics.forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-      const rect = btn.getBoundingClientRect();
-      const dx = (e.clientX - (rect.left + rect.width / 2)) / rect.width;
-      const dy = (e.clientY - (rect.top + rect.height / 2)) / rect.height;
-      btn.style.transform = `translate(${dx * 3}px, ${dy * 3}px)`;
-    });
-    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
-  });
+    if (messageIndex === messages.length - 1) {
+        isGreen = true;
+        noBtn.innerText = "si :3";
+        noBtn.style.background = "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)";
+        noBtn.style.color = "#1a5c38";
+        noBtn.style.boxShadow = "0 8px 20px rgba(56, 249, 215, 0.4)";
+        noBtn.style.transform = "scale(1.2) rotate(0deg)";
+        noBtn.removeEventListener('mouseover', moveButton);
+        noBtn.style.transition = "all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+        return;
+    }
 
-  // CTA routes
-  const go = (path, newTab = false) => newTab ? window.open(path, '_blank', 'noopener') : (window.location.href = path);
+    let clientX, clientY;
+    if (e && e.type === 'touchstart') {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+    } else if (e) {
+        clientX = e.clientX;
+        clientY = e.clientY;
+    }
 
-  $('#btnJoin')?.addEventListener('click', (e) => {
-    const href = $('#btnJoin')?.getAttribute('href') || '';
-    if (href.startsWith('#')) return; // let smooth scroll handle it
+    if (clientX !== undefined && clientY !== undefined) {
+        const randomAngryIndex = Math.floor(Math.random() * angryGifs.length);
+        angryCat.src = angryGifs[randomAngryIndex];
+
+        angryCat.style.left = (clientX - 40) + 'px';
+        angryCat.style.top = (clientY - 50) + 'px';
+
+        angryCat.classList.remove('cat-show');
+        void angryCat.offsetWidth;
+        angryCat.classList.add('cat-show');
+
+        if (catTimeout) clearTimeout(catTimeout);
+        catTimeout = setTimeout(() => {
+            angryCat.classList.remove('cat-show');
+        }, 1500);
+    }
+
+    messageIndex++;
+    if (messageIndex < messages.length) {
+        noBtn.innerText = messages[messageIndex];
+    }
+
+    currentFontSize += 0.1;
+    yesBtn.style.fontSize = `${currentFontSize}rem`;
+    const currentPadding = 12 + (messageIndex * 3);
+    yesBtn.style.padding = `${currentPadding}px ${currentPadding * 2}px`;
+
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const btnRect = noBtn.getBoundingClientRect();
+    const btnWidth = btnRect.width;
+    const btnHeight = btnRect.height;
+    const safeMargin = 30;
+
+    if (window.getComputedStyle(noBtn).position !== 'fixed') {
+        noBtn.style.position = 'fixed';
+    }
+
+    const maxLeft = viewportWidth - btnWidth - safeMargin;
+    const maxTop = viewportHeight - btnHeight - safeMargin;
+
+    const randomX = safeMargin + Math.random() * (maxLeft - safeMargin);
+    const randomY = safeMargin + Math.random() * (maxTop - safeMargin);
+
+    noBtn.style.left = `${randomX}px`;
+    noBtn.style.top = `${randomY}px`;
+    noBtn.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
+}
+
+noBtn.addEventListener('mouseover', (e) => {
+    if (!isGreen) moveButton(e);
+});
+
+noBtn.addEventListener('touchstart', (e) => {
     e.preventDefault();
-    go(ROUTES.signup);
-  });
-  $('#btnSignIn')?.addEventListener('click', () => go(ROUTES.login));
-  $('#btnSignInFooter')?.addEventListener('click', () => go(ROUTES.login));
-  $('#btnGetApp')?.addEventListener('click', () => go(ROUTES.app));
-  $('#btnGetApp2')?.addEventListener('click', () => go(ROUTES.app));
-  $('#btnOpenWeb')?.addEventListener('click', () => go(ROUTES.web));
-  $('#pillAppStore')?.addEventListener('click', () => go('https://apps.apple.com/', true));
-  $('#pillWeb')?.addEventListener('click', () => go(ROUTES.web));
+    moveButton(e);
+});
 
-  // Learn scroll button
-  $('#btnLearn')?.addEventListener('click', () => {
-    const target = $('#features');
-    if (!target) return;
-    target.scrollIntoView({ behavior: prefersReduced() ? 'auto' : 'smooth', block: 'start' });
-  });
-
-  // FAQ summary keyboard support
-  $$('.faq summary').forEach(sum => {
-    sum.setAttribute('role', 'button');
-    sum.setAttribute('tabindex', '0');
-    sum.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        const details = sum.parentElement;
-        if (details && details.tagName === 'DETAILS') details.open = !details.open;
-      }
-    });
-  });
-
-  // PWA install prompt (optional)
-  let deferredPrompt = null;
-  window.addEventListener('beforeinstallprompt', (e) => {
+noBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    deferredPrompt = e;
-  });
-  const triggerInstall = async () => {
-    if (!deferredPrompt) return false;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    return outcome === 'accepted';
-  };
-  ['btnGetApp', 'btnGetApp2', 'pillAppStore'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('click', async (ev) => {
-      if (window.matchMedia('(display-mode: standalone)').matches) return;
-      const used = await triggerInstall();
-      if (used) ev.preventDefault();
-    });
-  });
+    moveButton(e);
+});
 
-  // Offline notice
-  window.addEventListener('offline', () => {
-    console.info('You are offline. Some features may be unavailable.');
-  });
-
-  function prefersReduced() {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }
-})();
+yesBtn.addEventListener('click', handleSuccess);
