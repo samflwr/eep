@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #f9e3e3;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: all 0.5s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+.title {
+    font-family: 'Potta One', system-ui;
+    font-size: 3rem;
+    background: linear-gradient(to bottom, #ff4d6d, #ff758c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 0px rgba(255, 255, 255, 1)) 
+            drop-shadow(0 6px 10px rgba(0,0,0,0.1));
+    margin-bottom: 25px;
+}
+
+.gif-container img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.buttons-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    min-height: 80px;
+}
+
+.btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 100;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                transform 0.1s linear;
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.btn-yes {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: #1a5c38;
+    box-shadow: 0 8px 20px rgba(56, 249, 215, 0.4);
+}
+
+.btn-yes:hover {
+    box-shadow: 0 12px 25px rgba(56, 249, 215, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn-no {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: #880e4f;
+    box-shadow: 0 8px 20px rgba(255, 154, 158, 0.4);
+}
+
+#angry-cat {
+    position: fixed;
+    width: 80px;
+    height: auto;
+    z-index: 9999;
+    pointer-events: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.3s ease-in, opacity 0.2s ease-in;
+}
+
+#angry-cat.cat-show {
+    opacity: 1;
+    animation: popupBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes popupBounce {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
