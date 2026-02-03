@@ -1,0 +1,392 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #f9e3e3;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    position: relative; /* Importante per centrare le card */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: all 0.5s ease;
+    width: 100%;
+    max-width: 500px;
+    /* Assicuriamo che le card siano sovrapposte */
+    position: absolute; 
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8);
+}
+
+/* Classe per mostrare la card corrente */
+.card.active-card {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+    z-index: 10;
+    position: relative;
+}
+
+.hidden {
+    display: none; /* Fallback */
+}
+
+.title {
+    font-family: 'Potta One', system-ui;
+    font-size: 2.5rem; /* Un po' più piccolo per stare nel quiz */
+    background: linear-gradient(to bottom, #ff4d6d, #ff758c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 0px rgba(255, 255, 255, 1));
+    margin-bottom: 25px;
+    line-height: 1.2;
+}
+
+.gif-container img {
+    max-width: 100%;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.buttons-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    min-height: 80px;
+}
+
+.btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 100;
+    transition: transform 0.1s linear, box-shadow 0.3s ease;
+}
+
+.btn-yes {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: #1a5c38;
+    box-shadow: 0 8px 20px rgba(56, 249, 215, 0.4);
+}
+
+.btn-no {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: #880e4f;
+    box-shadow: 0 8px 20px rgba(255, 154, 158, 0.4);
+    /* Importante per il movimento */
+    position: relative; 
+}
+
+/* Stile per il gatto arrabbiato */
+#angry-cat {
+    position: fixed;
+    width: 100px;
+    height: auto;
+    z-index: 9999;
+    pointer-events: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.3s ease-in, opacity 0.2s ease-in;
+}
+
+#angry-cat.cat-show {
+    opacity: 1;
+    animation: popupBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes popupBounce {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+
+
+
+
+
+
+/* --- NUOVE ANIMAZIONI PER IL BOTTONE NO (VERSIONE PRO) --- */
+
+/* 1. SHAKE: Tremolio rabbioso con bagliore rosso */
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); box-shadow: 0 0 10px #ff0000; }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); box-shadow: 0 0 20px #ff0000; }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); box-shadow: 0 0 10px #ff0000; }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(0, 0) rotate(0); box-shadow: none; }
+}
+
+/* 2. SPIN: Trottola che diventa sferica mentre gira */
+@keyframes spin-fast {
+    0% { transform: rotate(0deg) scale(1); border-radius: 50px; }
+    50% { transform: rotate(180deg) scale(0.9); border-radius: 50%; background: #6c5ce7; }
+    100% { transform: rotate(360deg) scale(1); border-radius: 50px; }
+}
+
+/* 3. JELLY: Effetto gommoso ed elastico */
+@keyframes jelly {
+    0% { transform: scale(1, 1); }
+    30% { transform: scale(1.25, 0.75); }
+    40% { transform: scale(0.75, 1.25); }
+    50% { transform: scale(1.15, 0.85); }
+    65% { transform: scale(0.95, 1.05); }
+    75% { transform: scale(1.05, 0.95); }
+    100% { transform: scale(1, 1); }
+}
+
+/* 4. GLITCH: Effetto errore di sistema (Nuovo!) */
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); }
+    20% { transform: skew(-10deg); filter: invert(1); }
+    40% { transform: skew(10deg); filter: invert(0); }
+    60% { transform: skew(-5deg); filter: hue-rotate(90deg); }
+    80% { transform: skew(5deg); }
+    100% { transform: skew(0deg); }
+}
+
+/* --- CLASSI DI UTILITÀ ATTIVATE DA JS --- */
+
+.mode-shake {
+    animation: shake 0.4s ease-in-out infinite; /* Più veloce e ripetuto */
+    background: #ff4757 !important; /* Rosso fragola intenso */
+    color: white !important;
+    border: 2px solid #880e4f !important;
+    font-weight: 900 !important;
+}
+
+.mode-spin {
+    animation: spin-fast 0.6s linear;
+    background: #a29bfe !important; /* Viola pastello */
+    color: #fff !important;
+    box-shadow: 0 0 15px rgba(162, 155, 254, 0.8);
+}
+
+.mode-ghost {
+    opacity: 0.15 !important; /* Quasi invisibile ma si vede un po' */
+    filter: blur(2px) grayscale(100%); /* Sfocato e grigio */
+    transition: opacity 0.5s, filter 0.5s;
+    background: #dfe6e9 !important;
+    color: #636e72 !important;
+    border: 1px dashed #b2bec3 !important;
+}
+
+.mode-zoom {
+    animation: jelly 0.5s ease; /* Usa jelly insieme allo zoom */
+    transform: scale(1.4) !important; 
+    background: #fab1a0 !important; /* Arancione pesca */
+    color: #d35400 !important;
+    z-index: 999 !important; /* Passa sopra a tutto */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.mode-micro {
+    transform: scale(0.4) !important;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: #74b9ff !important;
+    font-size: 0.8rem !important;
+    opacity: 0.8;
+}
+
+/* Classe extra se vuoi usarla nel JS (case 5) */
+.mode-glitch {
+    animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    background: #2d3436 !important;
+    color: #00ff00 !important; /* Testo hacker */
+    font-family: 'Courier New', monospace !important;
+    box-shadow: -2px 2px 0px #ff00de, 2px -2px 0px #00efff;
+}
+
+/* --- ANIMAZIONI PRO ED EFFETTI SPECIALI --- */
+
+/* 1. SHAKE: Tremolio rabbioso */
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); box-shadow: 0 0 10px #ff0000; }
+    30% { transform: translate(3px, 2px) rotate(0deg); box-shadow: 0 0 20px #ff0000; }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    100% { transform: translate(0, 0) rotate(0); box-shadow: none; }
+}
+
+/* 2. SPIN: Trottola */
+@keyframes spin-fast {
+    0% { transform: rotate(0deg) scale(1); border-radius: 50px; }
+    50% { transform: rotate(180deg) scale(0.9); border-radius: 50%; }
+    100% { transform: rotate(360deg) scale(1); border-radius: 50px; }
+}
+
+/* 3. JELLY/ZOOM: Effetto gommoso */
+@keyframes jelly {
+    0% { transform: scale(1, 1); }
+    30% { transform: scale(1.25, 0.75); }
+    40% { transform: scale(0.75, 1.25); }
+    50% { transform: scale(1.15, 0.85); }
+    65% { transform: scale(0.95, 1.05); }
+    100% { transform: scale(1, 1); }
+}
+
+/* 4. GLITCH: Errore di sistema */
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); }
+    20% { transform: skew(-10deg); filter: invert(1); }
+    40% { transform: skew(10deg); filter: invert(0); }
+    60% { transform: skew(-5deg); filter: hue-rotate(90deg); }
+    80% { transform: skew(5deg); }
+    100% { transform: skew(0deg); }
+}
+
+/* 5. RAINBOW: Cambio colore psichedelico */
+@keyframes rainbow-bg {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+/* 6. BLOB: Forma liquida che cambia */
+@keyframes blobber {
+    0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+    33% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+    66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+    100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+}
+
+/* --- CLASSI ATTIVATE DA JS --- */
+
+/* Base reset */
+.btn-no { transition: all 0.2s; }
+
+.mode-shake {
+    animation: shake 0.4s ease-in-out infinite;
+    background: #ff4757 !important;
+    color: white !important;
+    border: 3px solid #880e4f !important;
+    font-weight: 900 !important;
+}
+
+.mode-spin {
+    animation: spin-fast 0.6s linear;
+    background: #a29bfe !important;
+    color: #fff !important;
+}
+
+.mode-ghost {
+    opacity: 0.1 !important;
+    filter: blur(3px) grayscale(100%);
+    background: #dfe6e9 !important;
+    color: #636e72 !important;
+    border: 1px dashed #b2bec3 !important;
+}
+
+.mode-zoom {
+    animation: jelly 0.5s ease;
+    transform: scale(1.4) !important;
+    background: #fab1a0 !important;
+    color: #d35400 !important;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+.mode-micro {
+    transform: scale(0.4) !important;
+    background: #74b9ff !important;
+}
+
+.mode-glitch {
+    animation: glitch-skew 0.3s infinite;
+    background: #2d3436 !important;
+    color: #00ff00 !important;
+    font-family: 'Courier New', monospace !important;
+    text-shadow: 2px 0 #ff00de, -2px 0 #00efff;
+}
+
+.mode-rainbow {
+    animation: rainbow-bg 1s linear infinite;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000) !important;
+    color: white !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.mode-blob {
+    animation: blobber 2s ease-in-out infinite;
+    background: #00b894 !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: inset 0 -10px 20px rgba(0,0,0,0.2);
+}
+
+.mode-pixel {
+    border-radius: 0px !important;
+    background: #b2bec3 !important;
+    color: black !important;
+    font-family: monospace !important;
+    border-bottom: 4px solid #636e72 !important;
+    border-right: 4px solid #636e72 !important;
+    box-shadow: none !important;
+}
+
+.mode-frozen {
+    background: #81ecec !important;
+    color: #0984e3 !important;
+    border: 1px solid white !important;
+    box-shadow: 0 0 10px #74b9ff, inset 0 0 10px white;
+    text-shadow: 0 0 5px white;
+}
+
+.mode-reverse {
+    transform: rotate(180deg) !important;
+    background: #fdcb6e !important;
+    color: #d35400 !important;
+}
+
+.mode-stretch {
+    transform: scaleX(1.8) scaleY(0.7) !important;
+    background: #e17055 !important;
+    color: white !important;
+}
+
+.mode-stone {
+    background: #636e72 !important;
+    color: #b2bec3 !important;
+    box-shadow: 0 5px 0 #2d3436 !important;
+    transform: translateY(5px) !important;
+}
